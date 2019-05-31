@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Start building your scala project with CircleCi | Your awesome title</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="Start building your scala project with CircleCi" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Overview" />
+<meta property="og:description" content="Overview" />
+<link rel="canonical" href="http://localhost:4000/posts/2019/05/31/sbt-circleci-integration.html" />
+<meta property="og:url" content="http://localhost:4000/posts/2019/05/31/sbt-circleci-integration.html" />
+<meta property="og:site_name" content="Your awesome title" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2019-05-31T00:00:00+02:00" />
+<script type="application/ld+json">
+{"mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/posts/2019/05/31/sbt-circleci-integration.html"},"url":"http://localhost:4000/posts/2019/05/31/sbt-circleci-integration.html","headline":"Start building your scala project with CircleCi","description":"Overview","dateModified":"2019-05-31T00:00:00+02:00","datePublished":"2019-05-31T00:00:00+02:00","@type":"BlogPosting","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Your awesome title" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Your awesome title</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Start building your scala project with CircleCi</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2019-05-31T00:00:00+02:00" itemprop="datePublished">May 31, 2019
+      </time></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <h1 id="overview">Overview</h1>
+
+<p>This tutorial is intended to give brief information about <b>circleci</b>, integrating
+<b>circleci</b> with your scala project to automate and orchestrate your builds.</p>
+
+<h1 id="circleci">CircleCi</h1>
+
+<h2 id="what-is-continuous-integration-ci">What is continuous integration (CI)</h2>
+
+<p>Continuous integration (CI) is a practice that requires developers to commit
+and integrate their codes into a central repository. Instead of building
+and verifying the integrity in an isolated system, the integrated code built
+and verified by each commit. This allows teams to detect problems and take
+actions early.</p>
+
+<h2 id="what-is-circleci">What is CircleCi</h2>
+
+<p>As you can guess from the context, <b>circleci</b> is yet another CI service that
+you can make use of.</p>
+
+<p>With <b>circleci</b> you can utilize CI in your development process easily. As you will
+later see in this tutorial, you can spin up everything with a simple yml file.
+You can configure workflows and orchestrate them in various ways depending
+on your requirements. In a nutshell you can do:</p>
+
+<ul>
+    <li> Compile and test your code </li>
+    <li> Schedule your jobs </li>
+    <li> Create custom workflows and pipelines </li>
+    <li> Orchestrate your jobs </li>
+</ul>
+
+<p>Key features for <b>circleci</b> can be described as:</p>
+<ul>
+    <li> No dedicated servers and administration needed </li>
+    <li> Has a free plan </li>
+    <li> Nice cli to run tasks locally </li>
+    <li> Rest api to access projects, builds and artifacts </li>
+    <li> Easy configuration </li>
+    <li> VCS integration </li>
+    <li> Community support </li>
+</ul>
+
+<h1 id="configuration">Configuration</h1>
+
+<p>CircleCI 2.0 requires <code class="highlighter-rouge">config.yml</code> file to be under
+<code class="highlighter-rouge">.circleci</code> directory which should be under the projects root directory
+So the file location should follow <code class="highlighter-rouge">.circleci/config.yml</code></p>
+
+<p>To achieve that you can execute following commands in your projects root
+directory.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&gt; mkdir .circleci/
+&gt; touch .circleci/config.yml
+</code></pre></div></div>
+
+<h2 id="configyml">config.yml</h2>
+
+<h3 id="version">version</h3>
+
+<p>Circleci config.yml should specify its version in the beginning of the file
+so we start with stating the version.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>version: 2
+</code></pre></div></div>
+
+<h3 id="jobs--build">jobs &amp; build</h3>
+
+<p>Before defining the steps that we want to run, first we have to configure circeci
+with an entry point and a job to run. For providing endpoint, we can use
+<code class="highlighter-rouge">build</code> keyword and we can create jobs to run under the keyword <code class="highlighter-rouge">jobs</code>.</p>
+
+<h2 id="configuring-jobs">Configuring jobs</h2>
+
+<h3 id="defining-docker-images">Defining docker images</h3>
+
+<p>Docker images needed for the job can be defined under <code class="highlighter-rouge">docker</code>section as
+shown below. Given images will be pulled by circleci.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  jobs:
+    build:
+        docker:
+            - image: &lt;&lt;image-name&gt;&gt;
+            - image: &lt;&lt;image-name&gt;&gt;
+            ...
+</code></pre></div></div>
+
+<p>Since we are going to build a sbt project, we can use official docker
+image for <code class="highlighter-rouge">openjdk8</code></p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  jobs:
+    build:
+        docker:
+            - image: openjdk:8
+</code></pre></div></div>
+
+<h3 id="defining-environment-variables">Defining environment variables</h3>
+
+<p>Values that you want to use during the execution of the job 
+should be defined under <code class="highlighter-rouge">environment</code> section as shown below.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>jobs:
+    build:
+        environment:
+            - MY_VAR_1: &lt;&lt;some-value&gt;&gt;
+            - MY_VAR_2: &lt;&lt;some-value&gt;&gt;
+</code></pre></div></div>
+
+<p>Since we need sbt, we can set the version that we want to download 
+as an environment variable. (yes we are going to download that :sweat_smile:)</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>jobs:
+    build:
+        environment:
+            - SBT_VERSION: 1.2.8
+</code></pre></div></div>
+
+<h3 id="setting-up-steps">Setting up steps</h3>
+
+<p>We can define each command that we want to run under <code class="highlighter-rouge">steps</code> section.
+Commands can be defined by <code class="highlighter-rouge">run keyword</code>.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>jobs:
+    build:
+        steps:
+            - run: &lt;&lt;command&gt;&gt;
+            - run: &lt;&lt;command&gt;&gt;
+</code></pre></div></div>
+
+<p>Also a name can be defined for a command alongside the actual command.</p>
+
+<p>Multiline commands can be defined by using a pipe <code class="highlighter-rouge">|</code> at the beginning
+of the command</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>jobs:
+    build:
+        steps:
+            - run: 
+                name: Say hello
+                command: |
+                          apt update &amp;&amp; apt install -y curl
+                          apt-get update
+                          apt-get install -y sbt python-pip git
+                          ....                        
+</code></pre></div></div>
+
+<p>All the given commands will run inside the docker container for the job.</p>
+
+<p>Now we can start defining the steps needed to compile and execute other
+commands for our project.</p>
+
+<h3 id="installing-the-sbt">Installing the sbt</h3>
+
+<p>Right now we have an empty container and to run our jobs we have to install
+the tools that we need.</p>
+
+<p>To install the sbt, first we have to install curl to be able to make rest
+calls. By using curl we are going to download the binary for sbt and install it
+We can define all the commands in one step by using the pipe <code class="highlighter-rouge">|</code> as described
+above</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>steps:
+    - run:
+        name: Get sbt binary
+        command: |
+                 apt update &amp;&amp; apt install -y curl
+                 curl -L -o sbt-$SBT_VERSION.deb https://dl.bintray.com/sbt/debian/sbt-$SBT_VERSION.deb
+                 dpkg -i sbt-$SBT_VERSION.deb
+                 rm sbt-$SBT_VERSION.deb
+
+</code></pre></div></div>
+
+<p>One thing to notice here is that, we read the version value from the environment
+variable that we defined earlier by saying <code class="highlighter-rouge">$SBT_VERSION</code></p>
+
+<h3 id="checking-out-the-code">Checking out the code</h3>
+
+<p>For circleci to git checkout our code we can use the <code class="highlighter-rouge">- checkout</code> keyword
+as a step. The project will be cloned into container</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>steps:
+    - run: ...
+    - run: ...
+    - checkout  
+    ...
+</code></pre></div></div>
+
+<h3 id="running-sbt-commands">Running sbt commands</h3>
+
+<p>Now we have our code ready and sbt installed, we can define the steps to 
+clean, compile and test our project</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>steps:
+    - run:
+        name: Clean
+        command: sbt clean
+    - run:
+        name: Compile
+        command: sbt compile
+    - run:
+        name: Test
+        command: sbt test
+</code></pre></div></div>
+
+<h3 id="setting-up-your-build-on-circleci">Setting up your build on circleci</h3>
+
+<p>Up to now, our <code class="highlighter-rouge">config.yml</code> should look like this.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>version: 2
+jobs:
+  build:
+    docker:
+    - image: openjdk:8
+    environment:
+    - SBT_VERSION: 1.2.8
+    steps:
+    - run:
+        name: Get sbt binary
+        command: |
+          apt update &amp;&amp; apt install -y curl
+          curl -L -o sbt-$SBT_VERSION.deb https://dl.bintray.com/sbt/debian/sbt-$SBT_VERSION.deb
+          dpkg -i sbt-$SBT_VERSION.deb
+          rm sbt-$SBT_VERSION.deb
+    - checkout
+    - run:
+        name: Clean
+        command: sbt clean
+    - run:
+        name: Compile
+        command: sbt compile
+    - run:
+        name: Test
+        command: sbt test
+</code></pre></div></div>
+
+<p>At this point I assume that you have a github repository for your project. If you
+don’t then create one and push your code to that repository.</p>
+
+<p>Now, navigate to <a>https://circleci.com</a> and signup. You can also select
+<code class="highlighter-rouge">Start with github</code> option.</p>
+
+<p>Go to add project section. Be sure that your github account is selected in 
+the dropdown on the top-left of the page. You can click the <code class="highlighter-rouge">Set Up Project</code>
+button next the project that you want to select.</p>
+
+<p><img src="https://s3.eu-central-1.amazonaws.com/tutorial.assets/circleci/circleci-select-project.png" alt="Select project" style="float: left; margin-right: 10px;" /></p>
+
+<p>In the next page, you will see circleci will try to give you a config.yml file
+and instructions to add the file to your project (that’s why circleci is the man).
+Since we have configuration ready, we can click on <code class="highlighter-rouge">Start Building</code> button
+which truely reflects our purpose.</p>
+
+<p>After you select <code class="highlighter-rouge">Start Building</code> circleci will trigger the build of your
+project automatically and you will see your project built.</p>
+
+<p><img src="https://s3.eu-central-1.amazonaws.com/tutorial.assets/circleci/circleci-builds.png" alt="Builds" style="float: left; margin-right: 10px;" /></p>
+
+<h1 id="introducing-workflows">Introducing workflows</h1>
+
+<p>Right now we have a basic configuration to build and test our project but circleci
+provides more. We can create workflows and compose them to achieve more.</p>
+
+<p>According to circleci, a workflow is
+<code class="highlighter-rouge">a set of rules for defining a collection of jobs and their run order. 
+Workflows support complex job orchestration using a simple set of configuration 
+keys to help you resolve failures sooner.</code></p>
+
+<p>With workflows, we can:</p>
+<ul>
+    <li>Run jobs independently</li>
+    <li>Schedule jobs</li>
+    <li>Orchestrate jobs</li>
+    <li>Configure different stages</li>
+</ul>
+
+<p>So let’s start.</p>
+
+<h2 id="creating-jobs">Creating jobs</h2>
+
+<p>Previously we configured a job to build and test our application. We are
+going to seperate them into two jobs and combine them in a workflow.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>version: 2
+jobs:
+  compile:
+    docker:
+    - image: openjdk:8
+    environment:
+    - SBT_VERSION: 1.2.8
+    steps:
+    - run:
+        name: Get sbt binary
+        command: |
+          apt update &amp;&amp; apt install -y curl
+          curl -L -o sbt-$SBT_VERSION.deb https://dl.bintray.com/sbt/debian/sbt-$SBT_VERSION.deb
+          dpkg -i sbt-$SBT_VERSION.deb
+          rm sbt-$SBT_VERSION.deb
+    - checkout
+    - run:
+        name: Clean
+        command: sbt clean
+    - run:
+        name: Compile
+        command: sbt compile
+  test:
+    docker:
+    - image: openjdk:8
+    environment:
+    - SBT_VERSION: 1.2.8
+    steps:
+    - run:
+        name: Get sbt binary
+        command: |
+          apt update &amp;&amp; apt install -y curl
+          curl -L -o sbt-$SBT_VERSION.deb https://dl.bintray.com/sbt/debian/sbt-$SBT_VERSION.deb
+          dpkg -i sbt-$SBT_VERSION.deb
+          rm sbt-$SBT_VERSION.deb
+    - checkout
+    - run:
+        name: Test
+        command: sbt test
+</code></pre></div></div>
+
+<p>Notice that we had to download sbt and checkout the code for both jobs since the commands for the job will run in the job’s context and each job 
+will run the commands in its own container. So seperating build and test for an sbt project does not make much sense.</p>
+
+<h3 id="creating-a-sequential-workflow">Creating a sequential workflow</h3>
+
+<p>A sequential workflow requires the previous step run and complete succesfully for the current step start running.</p>
+
+<p><img src="https://circleci.com/docs/assets/img/docs/sequential_workflow.png" alt="Sequential workflow" style="float: left; margin-right: 10px;" /></p>
+
+<p>Each workflow requires a unique name and a map. In the map we can configure the jobs that we want to run, schedule 
+the workflow using cron timers and so on. For more details you can check <a href="https://circleci.com/docs/2.0/configuration-reference/#workflows">workflow configuration
+reference</a>.</p>
+
+<p>We can configure our workflow to execute build then test as following:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>workflows:
+    version: 2
+    build-and-test:
+        jobs:
+            - compile
+            - test:
+                requires:
+                    - compile
+</code></pre></div></div>
+
+<p>Let’s observe the configuration</p>
+<ul>
+<li> <b>workflows</b> defines the section that the workflows are defined (suprisingly :sweat_smile:)</li>
+<li> <b>build-and-test</b> is the name of our workflow</li>
+<li> <b>jobs</b> are the section that we define our jobs for the workflow</li>
+<li> <b>compile</b> job is configured as the first job to run in the workflow</li>
+<li> <b>test</b> job is configured as the job which will start when the <b>compile</b> job completes</li>
+</ul>
+
+<p>After pushing your code, circleci will start executing your workflow
+Navigate to <code class="highlighter-rouge">Workflows</code> tab in circleci dashboard to see the result of your workflow</p>
+
+<p><img src="https://s3.eu-central-1.amazonaws.com/tutorial.assets/circleci/circleci-workflow-build.png" alt="Workflow result" style="float: left; margin-right: 10px;" /></p>
+
+<h3 id="fan-inout-workflow-example">Fan in/out workflow example</h3>
+
+<p>You may want to compose your workflow in a way that it will run some jobs sequentially and
+some jobs in parallel. In this case you can take advantage of <code class="highlighter-rouge">Fan In/Out</code> workflow.</p>
+
+<p><img src="https://circleci.com/docs/assets/img/docs/fan_in_out.png" alt="Workflow result" style="float: left; margin-right: 10px;" /></p>
+
+<p>To be more specific, let’s imagine a use case that you want to first compile your project,
+then run some test in parallel and if all the tests pass successfully, you want to deploy your application.</p>
+
+<p>To do that, we can define a workflow like this:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>workflows:
+    version: 2
+    build-test-deploy:
+        jobs:
+            - compile
+            - unit-test:
+                requires:
+                    - compile
+            - integration-test:
+                requires:
+                    - compile
+            - deploy:
+                requires:
+                    - unit-test
+                    - integration-test
+</code></pre></div></div>
+
+<p>In this case, as soon as the <code class="highlighter-rouge">compile</code> job finishes, <code class="highlighter-rouge">unit-test</code> and <code class="highlighter-rouge">integration-test</code> jobs will start.
+The <code class="highlighter-rouge">deploy</code> job must wait for all test jobs to complete successfully before it starts.</p>
+
+<h1 id="creating-and-deploying-docker-images">Creating and deploying docker images</h1>
+
+<p>As the last part of this tutorial, we are going to build a docker image for our project
+and publish it to docker hub by using circleci.</p>
+
+<p>To create docker image for a sbt project, we are going to use <code class="highlighter-rouge">SBT Native Packager</code>
+plugin. To activate the plugin for your project, simply add the following line to
+<code class="highlighter-rouge">plugins.sbt</code> file.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>addSbtPlugin("com.typesafe.sbt" % "sbt-native-packager" % "1.3.12")
+</code></pre></div></div>
+
+<p>After that you have to enable plugins <code class="highlighter-rouge">JavaAppPackaging</code> and <code class="highlighter-rouge">DockerPlugin</code> in your <code class="highlighter-rouge">build.sbt</code>
+file.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>enablePlugins(
+    JavaAppPackaging,
+    DockerPlugin
+)
+</code></pre></div></div>
+
+<p>Now let’s define the repository that we want our image to be pushed. To do that
+add the following line to your project settings.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>dockerRepository := Option("&lt;&lt;repository name&gt;&gt;")
+</code></pre></div></div>
+
+<p>You can test the image creation by using the command</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sbt docker:publishLocal
+</code></pre></div></div>
+
+<h2 id="adding-publish-job">Adding publish job</h2>
+
+<p>Let’s add a new job to create and publish a docker image for our project.</p>
+
+<p>To build our docker image we need a docker engine. We can use</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>- setup_remote_docker
+</code></pre></div></div>
+
+<p>command to tell circleci to create a remote docker engine for us and the container for the job will be 
+configured to use it.</p>
+
+<p>After that, we need to install a docker client to be able to run docker commands like <code class="highlighter-rouge">login</code>. Lets add the following 
+step to our job to install docker client</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>- run:
+        name: Install Docker client
+        command: |
+          set -x
+          VER="17.03.0-ce"
+          curl -L -o /tmp/docker-$VER.tgz https://get.docker.com/builds/Linux/x86_64/docker-$VER.tgz
+          tar -xz -C /tmp -f /tmp/docker-$VER.tgz
+          mv /tmp/docker/* /usr/bin
+</code></pre></div></div>
+
+<p>OK, docker client installed and now we have to authenticate to be able to publish our image to docker hub. But wait
+how can we supply our credentials for that. Are we going directly write our credentials to our config.yml and expose our 
+credentials. Luckily circleci have a solution for that. You can define environment variables for your project.</p>
+
+<p>Simply navigate your project settings and select <code class="highlighter-rouge">Environment Variables</code> under <code class="highlighter-rouge">Build Settings</code></p>
+
+<p><img src="https://s3.eu-central-1.amazonaws.com/tutorial.assets/circleci/circleci-environment-variables.png" alt="Environment variables" style="float: left; margin-right: 10px;" /></p>
+
+<p>and add <code class="highlighter-rouge">DOCKER_USER</code> and <code class="highlighter-rouge">DOCKER_PASS</code> environment variables for your project. Then we can add the following command 
+to login to docker.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>- run:
+        name: Docker login
+        command: docker login -u $DOCKER_USER -p $DOCKER_PASS
+
+</code></pre></div></div>
+
+<p>Lastly, add the following command to invoke docker publish.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    - run:
+        name: Publish docker artifacts
+        command: sbt docker:publish
+
+</code></pre></div></div>
+
+<h3 id="adding-to-workflow">Adding to workflow</h3>
+
+<p>We need to add the publish job as the last job in the workflow. We can configure the publish job to run after
+the test job completes.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>workflows:
+  version: 2
+  build-and-test-and-deploy:
+    jobs:
+    - compile
+    - test:
+        requires:
+        - compile
+    - publish:
+        requires:
+        - test
+</code></pre></div></div>
+
+<p>After pushing your code to repo, you can see the workflow successfully ran</p>
+
+<p><img src="https://s3.eu-central-1.amazonaws.com/tutorial.assets/circleci/circleci-workflow-success.png" alt="Workflow success" style="float: left; margin-right: 10px;" /></p>
+
+<p>and docker image is published.</p>
+
+<p><img src="https://s3.eu-central-1.amazonaws.com/tutorial.assets/circleci/dockerhub.png" alt="Docker hub" style="float: left; margin-right: 10px;" /></p>
+
+<h1 id="references">References</h1>
+
+<ul>
+  <li><a>https://www.thoughtworks.com/continuous-integration</a></li>
+  <li><a>https://circleci.com/docs/2.0/about-circleci/</a></li>
+  <li><a>https://hackernoon.com/continuous-integration-circleci-vs-travis-ci-vs-jenkins-41a1c2bd95f5</a></li>
+  <li><a>https://circleci.com/docs/2.0/language-scala/</a></li>
+  <li><a>https://circleci.com/docs/2.0/tutorials/</a></li>
+</ul>
+
+
+  </div><a class="u-url" href="/posts/2019/05/31/sbt-circleci-integration.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Your awesome title</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">Your awesome title</li><li><a class="u-email" href="mailto:muratcancelayir@gmail.com">muratcancelayir@gmail.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/muratcancelayir"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">muratcancelayir</span></a></li><li><a href="https://www.twitter.com/m_celayir"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg> <span class="username">m_celayir</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>My personal blog to keep things that I&#39;ve learned in one place</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
