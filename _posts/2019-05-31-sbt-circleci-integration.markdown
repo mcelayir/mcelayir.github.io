@@ -9,6 +9,8 @@ categories: posts
 This tutorial is intended to give brief information about <b>circleci</b>, integrating
 <b>circleci</b> with your scala project to automate and orchestrate your builds.
 
+You can find the github repository for the tutorial from <a href="https://github.com/muratcancelayir/sbt-circle-ci-integration">here</a>
+
 # CircleCi
 
 ## What is continuous integration (CI)
