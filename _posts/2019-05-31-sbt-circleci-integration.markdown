@@ -70,7 +70,7 @@ directory.
 Circleci config.yml should specify its version in the beginning of the file
 so we start with stating the version.
 
-```
+```yml
 version: 2
 ```
 
@@ -88,7 +88,7 @@ with an entry point and a job to run. For providing endpoint, we can use
 Docker images needed for the job can be defined under `docker`section as
 shown below. Given images will be pulled by circleci.
 
-```
+```yml
   jobs:
     build:
         docker:
@@ -100,7 +100,7 @@ shown below. Given images will be pulled by circleci.
 Since we are going to build a sbt project, we can use official docker
 image for `openjdk8`
 
-```
+```yml
   jobs:
     build:
         docker:
@@ -112,7 +112,7 @@ image for `openjdk8`
 Values that you want to use during the execution of the job 
 should be defined under `environment` section as shown below.
 
-```
+```yml
 jobs:
     build:
         environment:
@@ -123,7 +123,7 @@ jobs:
 Since we need sbt, we can set the version that we want to download 
 as an environment variable. (yes we are going to download that :sweat_smile:) 
 
-```
+```yml
 jobs:
     build:
         environment:
@@ -135,7 +135,7 @@ jobs:
 We can define each command that we want to run under `steps` section.
 Commands can be defined by `run keyword`.
 
-```
+```yml
 jobs:
     build:
         steps:
@@ -148,7 +148,7 @@ Also a name can be defined for a command alongside the actual command.
 Multiline commands can be defined by using a pipe `|` at the beginning
 of the command
 
-```
+```yml
 jobs:
     build:
         steps:
@@ -166,7 +166,7 @@ All the given commands will run inside the docker container for the job.
 Now we can start defining the steps needed to compile and execute other
 commands for our project.
 
-### Installing the sbt
+### Installing the Sbt
 
 Right now we have an empty container and to run our jobs we have to install
 the tools that we need.
@@ -176,7 +176,7 @@ calls. By using curl we are going to download the binary for sbt and install it
 We can define all the commands in one step by using the pipe `|` as described
 above
 
-```
+```yml
 steps:
     - run:
         name: Get sbt binary
@@ -196,7 +196,7 @@ variable that we defined earlier by saying `$SBT_VERSION`
 For circleci to git checkout our code we can use the `- checkout` keyword
 as a step. The project will be cloned into container
 
-```
+```yml
 steps:
     - run: ...
     - run: ...
@@ -209,7 +209,7 @@ steps:
 Now we have our code ready and sbt installed, we can define the steps to 
 clean, compile and test our project
 
-```
+```yml
 steps:
     - run:
         name: Clean
@@ -226,7 +226,7 @@ steps:
 
 Up to now, our `config.yml` should look like this.
 
-```
+```yml
 version: 2
 jobs:
   build:
@@ -306,7 +306,7 @@ So let's start.
 Previously we configured a job to build and test our application. We are
 going to seperate them into two jobs and combine them in a workflow.
 
-```
+```yml
 version: 2
 jobs:
   compile:
@@ -366,7 +366,7 @@ reference</a>.
 
 We can configure our workflow to execute build then test as following:
 
-```
+```yml
 workflows:
     version: 2
     build-and-test:
@@ -407,7 +407,7 @@ then run some test in parallel and if all the tests pass successfully, you want 
 
 To do that, we can define a workflow like this:
 
-```
+```yml
 workflows:
     version: 2
     build-test-deploy:
@@ -437,14 +437,14 @@ To create docker image for a sbt project, we are going to use `SBT Native Packag
 plugin. To activate the plugin for your project, simply add the following line to
 `plugins.sbt` file.
 
-```
+```scala
 addSbtPlugin("com.typesafe.sbt" % "sbt-native-packager" % "1.3.12")
 ```
 
 After that you have to enable plugins `JavaAppPackaging` and `DockerPlugin` in your `build.sbt`
 file.
 
-```
+```scala
 enablePlugins(
     JavaAppPackaging,
     DockerPlugin
@@ -454,7 +454,7 @@ enablePlugins(
 Now let's define the repository that we want our image to be pushed. To do that
 add the following line to your project settings.
 
-```
+```scala
 dockerRepository := Option("<<repository name>>")
 ```
 
@@ -470,7 +470,7 @@ Let's add a new job to create and publish a docker image for our project.
 
 To build our docker image we need a docker engine. We can use 
 
-```
+```yml
 - setup_remote_docker
 ```
 
@@ -480,7 +480,7 @@ configured to use it.
 After that, we need to install a docker client to be able to run docker commands like `login`. Lets add the following 
 step to our job to install docker client
 
-```
+```yml
 - run:
         name: Install Docker client
         command: |
@@ -504,7 +504,7 @@ Simply navigate your project settings and select `Environment Variables` under `
 and add `DOCKER_USER` and `DOCKER_PASS` environment variables for your project. Then we can add the following command 
 to login to docker.
 
-```
+```yml
 - run:
         name: Docker login
         command: docker login -u $DOCKER_USER -p $DOCKER_PASS
@@ -513,7 +513,7 @@ to login to docker.
 
 Lastly, add the following command to invoke docker publish.
 
-```
+```yml
     - run:
         name: Publish docker artifacts
         command: sbt docker:publish
@@ -525,7 +525,7 @@ Lastly, add the following command to invoke docker publish.
 We need to add the publish job as the last job in the workflow. We can configure the publish job to run after
 the test job completes.
 
-```
+```yml
 workflows:
   version: 2
   build-and-test-and-deploy:
