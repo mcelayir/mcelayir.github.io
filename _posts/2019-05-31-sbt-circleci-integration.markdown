@@ -6,10 +6,11 @@ categories: posts
 ---
 # Overview
 
-This tutorial is intended to give brief information about <b>circleci</b>, integrating
-<b>circleci</b> with your scala project to automate and orchestrate your builds.
+This tutorial is intended to give information about circleci and demonstrate its basic concepts by integrating circleci with a scala project. We are going to automate and orchestrate the steps necessary to compile, test and publish
 
-You can find the github repository for the tutorial from <a href="https://github.com/muratcancelayir/sbt-circle-ci-integration">here</a>
+You can find the github repository for the tutorial <a href="https://github.com/muratcancelayir/sbt-circle-ci-integration">here</a>
+
+The second part of this tutorial `Fine Tuning Your CircleCi Builds` can be found <a href="https://muratcancelayir.github.io/posts/2019/05/31/fine-tuning-your-circleci-builds.html">here</a> 
 
 # CircleCi
 
@@ -17,9 +18,9 @@ You can find the github repository for the tutorial from <a href="https://github
 
 Continuous integration (CI) is a practice that requires developers to commit
 and integrate their codes into a central repository. Instead of building
-and verifying the integrity in an isolated system, the integrated code built
+and verifying the integrity in an isolated system, the integrated code is built
 and verified by each commit. This allows teams to detect problems and take
-actions early.
+preventive actions.
 
 ## What is CircleCi
 
@@ -29,7 +30,7 @@ you can make use of.
 With <b>circleci</b> you can utilize CI in your development process easily. As you will
 later see in this tutorial, you can spin up everything with a simple yml file.
 You can configure workflows and orchestrate them in various ways depending
-on your requirements. In a nutshell you can do:
+on your requirements. In a nutshell you can:
 
 <ul>
     <li> Compile and test your code </li>
@@ -38,7 +39,7 @@ on your requirements. In a nutshell you can do:
     <li> Orchestrate your jobs </li>
 </ul> 
 
-Key features for <b>circleci</b> can be described as:
+Key features of <b>circleci</b> include (but not limited to):
 <ul>
     <li> No dedicated servers and administration needed </li>
     <li> Has a free plan </li>
@@ -51,11 +52,11 @@ Key features for <b>circleci</b> can be described as:
 
 # Configuration
 
-CircleCI 2.0 requires `config.yml` file to be under
-`.circleci` directory which should be under the projects root directory
-So the file location should follow `.circleci/config.yml`
+CircleCI 2.0 requires `config.yml` file to be under the
+`.circleci` directory which should be under the projects root directory.
+Thus the file location should follow `.circleci/config.yml`
 
-To achieve that you can execute following commands in your projects root
+To achieve that, you can execute following commands in your projects root
 directory.
 
 ```
@@ -76,9 +77,9 @@ version: 2
 
 ### jobs & build
 
-Before defining the steps that we want to run, first we have to configure circeci
-with an entry point and a job to run. For providing endpoint, we can use
-`build` keyword and we can create jobs to run under the keyword `jobs`.
+Before defining the steps we want to run, we have to configure circeci
+with an entry point and a job to run. To provide an endpoint, we can use
+the `build` keyword and we can create jobs to run under the keyword `jobs`.
 
 
 ## Configuring jobs
@@ -97,7 +98,7 @@ shown below. Given images will be pulled by circleci.
             ...
 ```
 
-Since we are going to build a sbt project, we can use official docker
+Since we are going to build a sbt project, we can use the official docker
 image for `openjdk8`
 
 ```yml
@@ -109,8 +110,8 @@ image for `openjdk8`
 
 ### Defining environment variables
 
-Values that you want to use during the execution of the job 
-should be defined under `environment` section as shown below.
+Values that we want to use during the execution of the job 
+should be defined under the `environment` section as shown below.
 
 ```yml
 jobs:
@@ -132,8 +133,8 @@ jobs:
 
 ### Setting up steps
 
-We can define each command that we want to run under `steps` section.
-Commands can be defined by `run keyword`.
+We can define each command that we want to run under the `steps` section.
+Commands can be defined by the `run` keyword.
 
 ```yml
 jobs:
@@ -143,7 +144,7 @@ jobs:
             - run: <<command>>
 ```
 
-Also a name can be defined for a command alongside the actual command.
+Also a name can be defined for a `step`to identify its purpose.
 
 Multiline commands can be defined by using a pipe `|` at the beginning
 of the command
@@ -171,10 +172,9 @@ commands for our project.
 Right now we have an empty container and to run our jobs we have to install
 the tools that we need.
 
-To install the sbt, first we have to install curl to be able to make rest
-calls. By using curl we are going to download the binary for sbt and install it
-We can define all the commands in one step by using the pipe `|` as described
-above
+To install the sbt, we have to install the `curl` application to be able to download
+the artifacts via http calls. Downloaded artifact will be installed by the `dpkg` command.
+We can run all the commands in one step by using the pipe `|` as described above.
 
 ```yml
 steps:
@@ -188,13 +188,11 @@ steps:
 
 ```
 
-One thing to notice here is that, we read the version value from the environment
-variable that we defined earlier by saying `$SBT_VERSION`
-
 ### Checking out the code
 
-For circleci to git checkout our code we can use the `- checkout` keyword
-as a step. The project will be cloned into container
+After installing the `sbt`, we need our source to be available. We can make
+circleci to do a `git checkout`by utilizng the keyword `checkout` as a step
+in the job. After this step is executed, the project will be cloned into container
 
 ```yml
 steps:
@@ -255,7 +253,9 @@ jobs:
 ```
 
 At this point I assume that you have a github repository for your project. If you
-don't then create one and push your code to that repository.
+don't then create one and push your code to that repository (chap! chap! :sweat_smile:).
+
+If you have, then you can continue enjoying this tutorial from this line :laughing:
 
 Now, navigate to <a>https://circleci.com</a> and signup. You can also select
 `Start with github` option.
@@ -268,10 +268,9 @@ button next the project that you want to select.
      alt="Select project"
      style="float: left; margin-right: 10px;" />
 
-In the next page, you will see circleci will try to give you a config.yml file
+In the next page, you will see circleci will try to offer you a config.yml file
 and instructions to add the file to your project (that's why circleci is the man).
-Since we have configuration ready, we can click on `Start Building` button
-which truely reflects our purpose.
+Since we have configuration ready, we can click on `Start Building` button.
 
 After you select `Start Building` circleci will trigger the build of your
 project automatically and you will see your project built.
@@ -283,18 +282,20 @@ project automatically and you will see your project built.
 
 # Introducing workflows
 
-Right now we have a basic configuration to build and test our project but circleci
-provides more. We can create workflows and compose them to achieve more.
+Until now we have a basic configuration to build and test our project but circleci
+can offer more. We can make use of the workflows feature to increase our total control
+over the whole process.
 
 According to circleci, a workflow is
 `a set of rules for defining a collection of jobs and their run order. 
 Workflows support complex job orchestration using a simple set of configuration 
 keys to help you resolve failures sooner.`
 
-With workflows, we can:
+To simply put, with workflows, you can:
 <ul>
     <li>Run jobs independently</li>
     <li>Schedule jobs</li>
+    <li>Compose jobs</li>
     <li>Orchestrate jobs</li>
     <li>Configure different stages</li>
 </ul>
@@ -303,8 +304,7 @@ So let's start.
 
 ## Creating jobs
 
-Previously we configured a job to build and test our application. We are
-going to seperate them into two jobs and combine them in a workflow.
+Previously we configured a single job to build and test our application. Lets seperate that into two jobs and combine them in a workflow.
 
 ```yml
 version: 2
@@ -477,8 +477,8 @@ To build our docker image we need a docker engine. We can use
 command to tell circleci to create a remote docker engine for us and the container for the job will be 
 configured to use it.
 
-After that, we need to install a docker client to be able to run docker commands like `login`. Lets add the following 
-step to our job to install docker client
+After that, we need to install the docker client to be able to build and push docker images. Lets add the following 
+step to our job to install the docker client
 
 ```yml
 - run:
@@ -522,7 +522,7 @@ Lastly, add the following command to invoke docker publish.
 
 ### Adding to workflow
 
-We need to add the publish job as the last job in the workflow. We can configure the publish job to run after
+We need to add the publish job as the last job in the workflow. We can configure the publish job to run when
 the test job completes.
 
 ```yml
@@ -539,13 +539,13 @@ workflows:
         - test
 ```
 
-After pushing your code to repo, you can see the workflow successfully ran 
+Now, if we execute the workflow, we can observe its result.
 
 <img src="https://s3.eu-central-1.amazonaws.com/tutorial.assets/circleci/circleci-workflow-success.png"
      alt="Workflow success"
      style="float: left; margin-right: 10px;" />
 
-and docker image is published.
+Also we can check if the docker image is published or not.
 
 <img src="https://s3.eu-central-1.amazonaws.com/tutorial.assets/circleci/dockerhub.png"
      alt="Docker hub"
