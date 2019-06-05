@@ -12,8 +12,6 @@ You can find the github repository for the tutorial <a href="https://github.com/
 
 The second part of this tutorial `Fine Tuning Your CircleCi Builds` can be found <a href="https://muratcancelayir.github.io/posts/2019/05/31/fine-tuning-your-circleci-builds.html">here</a> 
 
-# CircleCi
-
 ## What is continuous integration (CI)
 
 Continuous integration (CI) is a practice that requires developers to commit
@@ -30,7 +28,7 @@ you can make use of.
 With <b>circleci</b> you can utilize CI in your development process easily. As you will
 later see in this tutorial, you can spin up everything with a simple yml file.
 You can configure workflows and orchestrate them in various ways depending
-on your requirements. In a nutshell you can:
+on your requirements. In a nutshell, you can:
 
 <ul>
     <li> Compile and test your code </li>
@@ -56,8 +54,7 @@ CircleCI 2.0 requires `config.yml` file to be under the
 `.circleci` directory which should be under the projects root directory.
 Thus the file location should follow `.circleci/config.yml`
 
-To achieve that, you can execute following commands in your projects root
-directory.
+To achieve that, you can execute the following commands in your project's root directory.
 
 ```
 > mkdir .circleci/
@@ -68,7 +65,7 @@ directory.
 
 ### version
 
-Circleci config.yml should specify its version in the beginning of the file
+Circleci config.yml should specify its version at the beginning of the file
 so we start with stating the version.
 
 ```yml
@@ -86,8 +83,7 @@ the `build` keyword and we can create jobs to run under the keyword `jobs`.
 
 ### Defining docker images
 
-Docker images needed for the job can be defined under `docker`section as
-shown below. Given images will be pulled by circleci.
+Docker images needed for the job can be defined under the `docker` section as shown below. Given images will be pulled by circleci.
 
 ```yml
   jobs:
@@ -98,7 +94,7 @@ shown below. Given images will be pulled by circleci.
             ...
 ```
 
-Since we are going to build a sbt project, we can use the official docker
+Since we are going to build an sbt project, we can use the official docker
 image for `openjdk8`
 
 ```yml
@@ -121,8 +117,7 @@ jobs:
             - MY_VAR_2: <<some-value>>
 ```
 
-Since we need sbt, we can set the version that we want to download 
-as an environment variable. (yes we are going to download that :sweat_smile:) 
+Since we need sbt, we can set the version that we want to download as an environment variable. (yes, we are going to download that :sweat_smile:) 
 
 ```yml
 jobs:
@@ -144,7 +139,7 @@ jobs:
             - run: <<command>>
 ```
 
-Also a name can be defined for a `step`to identify its purpose.
+Also, a name can be defined for a `step `to identify its purpose.
 
 Multiline commands can be defined by using a pipe `|` at the beginning
 of the command
@@ -173,7 +168,7 @@ Right now we have an empty container and to run our jobs we have to install
 the tools that we need.
 
 To install the sbt, we have to install the `curl` application to be able to download
-the artifacts via http calls. Downloaded artifact will be installed by the `dpkg` command.
+the artifacts via HTTP calls. The downloaded artifact will be installed by the `dpkg` command.
 We can run all the commands in one step by using the pipe `|` as described above.
 
 ```yml
@@ -191,8 +186,8 @@ steps:
 ### Checking out the code
 
 After installing the `sbt`, we need our source to be available. We can make
-circleci to do a `git checkout`by utilizng the keyword `checkout` as a step
-in the job. After this step is executed, the project will be cloned into container
+circleci to do a `git checkout ` by utilizing the keyword `checkout` as a step
+in the job. After this step is executed, the project will be cloned into the container
 
 ```yml
 steps:
@@ -252,7 +247,7 @@ jobs:
         command: sbt test
 ```
 
-At this point I assume that you have a github repository for your project. If you
+At this point, I assume that you have a github repository for your project. If you
 don't then create one and push your code to that repository (chap! chap! :sweat_smile:).
 
 If you have, then you can continue enjoying this tutorial from this line :laughing:
@@ -260,13 +255,12 @@ If you have, then you can continue enjoying this tutorial from this line :laughi
 Now, navigate to <a>https://circleci.com</a> and signup. You can also select
 `Start with github` option.
 
-Go to add project section. Be sure that your github account is selected in 
-the dropdown on the top-left of the page. You can click the `Set Up Project`
-button next the project that you want to select.
+Go to add project section. Be sure that your github account is selected in the dropdown on the top-left of the page. You can click the `Set Up Project`
+button next to the project that you want to select.
 
 <img src="https://s3.eu-central-1.amazonaws.com/tutorial.assets/circleci/circleci-select-project.png"
      alt="Select project"
-     style="float: left; margin-right: 10px;" />
+     style="float: left; margin-right: 10px; margin-bottom: 10px;" />
 
 In the next page, you will see circleci will try to offer you a config.yml file
 and instructions to add the file to your project (that's why circleci is the man).
@@ -277,7 +271,7 @@ project automatically and you will see your project built.
 
 <img src="https://s3.eu-central-1.amazonaws.com/tutorial.assets/circleci/circleci-builds.png"
      alt="Builds"
-     style="float: left; margin-right: 10px;" />
+     style="float: left; margin-right: 10px; margin-bottom: 10px;" />
 
 
 # Introducing workflows
@@ -304,7 +298,7 @@ So let's start.
 
 ## Creating jobs
 
-Previously we configured a single job to build and test our application. Lets seperate that into two jobs and combine them in a workflow.
+Previously we configured a single job to build and test our application. Let's separate that into two jobs and combine them in a workflow.
 
 ```yml
 version: 2
@@ -348,20 +342,18 @@ jobs:
         command: sbt test
 ```
 
-Notice that we had to download sbt and checkout the code for both jobs since the commands for the job will run in the job's context and each job 
-will run the commands in its own container. So seperating build and test for an sbt project does not make much sense.
+Notice that we had to download sbt and checkout the code for both jobs since the commands for the job will run in the job's context and each job will run the commands in its own container. So separating build and test for an sbt project does not make much sense.
 
 ### Creating a sequential workflow
 
-A sequential workflow requires the previous step run and complete succesfully for the current step start running.  
+A sequential workflow requires the previous step run and complete successfully for the current step to start running.  
 
 <img src="https://circleci.com/docs/assets/img/docs/sequential_workflow.png"
      alt="Sequential workflow"
-     style="float: left; margin-right: 10px;" />
+     style="float: left; margin-right: 10px; margin-bottom: 10px;" />
 
 
-Each workflow requires a unique name and a map. In the map we can configure the jobs that we want to run, schedule 
-the workflow using cron timers and so on. For more details you can check <a href="https://circleci.com/docs/2.0/configuration-reference/#workflows">workflow configuration
+Each workflow requires a unique name and a map. In the map, we can configure the jobs that we want to run, schedule the workflow using cron timers and so on. For more details you can check <a href="https://circleci.com/docs/2.0/configuration-reference/#workflows">workflow configuration
 reference</a>.
 
 We can configure our workflow to execute build then test as following:
@@ -391,16 +383,16 @@ Navigate to `Workflows` tab in circleci dashboard to see the result of your work
 
 <img src="https://s3.eu-central-1.amazonaws.com/tutorial.assets/circleci/circleci-workflow-build.png"
      alt="Workflow result"
-     style="float: left; margin-right: 10px;" />
+     style="float: left; margin-right: 10px;  margin-bottom: 10px;" />
      
 ### Fan in/out workflow example
 
 You may want to compose your workflow in a way that it will run some jobs sequentially and
-some jobs in parallel. In this case you can take advantage of `Fan In/Out` workflow.
+some jobs in parallel. In this case, you can take advantage of `Fan In/Out` workflow.
 
 <img src="https://circleci.com/docs/assets/img/docs/fan_in_out.png"
      alt="Workflow result"
-     style="float: left; margin-right: 10px;" />
+     style="float: left; margin-right: 10px;  margin-bottom: 10px;" />
 
 To be more specific, let's imagine a use case that you want to first compile your project,
 then run some test in parallel and if all the tests pass successfully, you want to deploy your application.
@@ -433,7 +425,7 @@ The `deploy` job must wait for all test jobs to complete successfully before it 
 As the last part of this tutorial, we are going to build a docker image for our project
 and publish it to docker hub by using circleci.
 
-To create docker image for a sbt project, we are going to use `SBT Native Packager`
+To create a docker image for an sbt project, we are going to use `SBT Native Packager`
 plugin. To activate the plugin for your project, simply add the following line to
 `plugins.sbt` file.
 
@@ -458,7 +450,7 @@ add the following line to your project settings.
 dockerRepository := Option("<<repository name>>")
 ```
 
-You can test the image creation by using the command
+You can publish an image by using the command
 
 ```
 sbt docker:publishLocal
@@ -468,16 +460,16 @@ sbt docker:publishLocal
 
 Let's add a new job to create and publish a docker image for our project.
 
-To build our docker image we need a docker engine. We can use 
+To build our docker image we need a docker engine. We can use the command
 
 ```yml
 - setup_remote_docker
 ```
 
-command to tell circleci to create a remote docker engine for us and the container for the job will be 
+to tell circleci to create a remote docker engine for us and the container for the job will be 
 configured to use it.
 
-After that, we need to install the docker client to be able to build and push docker images. Lets add the following 
+After that, we need to install the docker client to be able to build and push docker images. Let's add the following 
 step to our job to install the docker client
 
 ```yml
@@ -492,14 +484,13 @@ step to our job to install the docker client
 ```
 
 OK, docker client installed and now we have to authenticate to be able to publish our image to docker hub. But wait
-how can we supply our credentials for that. Are we going directly write our credentials to our config.yml and expose our 
-credentials. Luckily circleci have a solution for that. You can define environment variables for your project.
+how can we supply our credentials for that. Are we going directly write our credentials to our config.yml and expose our credentials? Luckily circleci have a solution for that. You can define environment variables for your project.
 
 Simply navigate your project settings and select `Environment Variables` under `Build Settings`
 
 <img src="https://s3.eu-central-1.amazonaws.com/tutorial.assets/circleci/circleci-environment-variables.png"
      alt="Environment variables"
-     style="float: left; margin-right: 10px;" />
+     style="float: left; margin-right: 10px;  margin-bottom: 10px;" />
 
 and add `DOCKER_USER` and `DOCKER_PASS` environment variables for your project. Then we can add the following command 
 to login to docker.
@@ -543,13 +534,13 @@ Now, if we execute the workflow, we can observe its result.
 
 <img src="https://s3.eu-central-1.amazonaws.com/tutorial.assets/circleci/circleci-workflow-success.png"
      alt="Workflow success"
-     style="float: left; margin-right: 10px;" />
+     style="float: left; margin-right: 10px; margin-bottom: 10px;" />
 
-Also we can check if the docker image is published or not.
+Also, we can check if the docker image is published or not.
 
 <img src="https://s3.eu-central-1.amazonaws.com/tutorial.assets/circleci/dockerhub.png"
      alt="Docker hub"
-     style="float: left; margin-right: 10px;" />
+     style="float: left; margin-right: 10px; margin-bottom: 10px;" />
      
 
 # References

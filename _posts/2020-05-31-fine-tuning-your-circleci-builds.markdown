@@ -21,7 +21,7 @@ Because of this, we are spending some of our build time just to download and ins
 
 We can make the data flow between jobs in two directions. If you want to use the data for different executions of the workflow then you need caching and if you want to share the data between the <b>jobs</b> of the workflow then you need workspaces.
 
-With the following images you can understand the concept better
+With the following images, you can understand the concept better
 
 ## Caching
 
@@ -111,14 +111,14 @@ command: sbt docker:publish
 
 ```
 
-So what are the problems with this configuration.
+So what are the problems with this configuration?
 
 <ul>
     <li>If we check the logs of the test and publish jobs, we will see that, before invoking the first sbt command, dependencies for the project are downloaded again in each job.</li>
     <li>Same applications are downloaded again for each job</li>
 </ul>
 
-Because of this reasons, execution time for each job to run get longer.
+Because of these reasons, the execution time for each job to run gets longer.
 
 Execution time for each job in the workflow can be observed by using the Workflows tab in the dashboard.
 <img src="https://s3.eu-central-1.amazonaws.com/tutorial.assets/circleci/master-initial.png"
@@ -153,16 +153,16 @@ To access the workspace, we use `attach_workspace` <a href="https://circleci.com
         at: /root
 ```
 
-Now, we saved the dependencies while executing the `compile` job and retrieve them to use in `test` and `publish`jobs. Therefore we expect a change in the execution time for these jobs.
+Now, we saved the dependencies while executing the `compile` job and retrieve them to use in `test` and `publish` jobs. Therefore we expect a change in the execution time for these jobs.
 
 <img src="https://s3.eu-central-1.amazonaws.com/tutorial.assets/circleci/m1-workspace.png"
     alt="Workspace created"
     style="float: left; margin-right: 10px; margin-bottom: 10px; margin-top: 10px;">
 
-As you can see execution time for `compile` didn't change much however it is impoved for the others.
+As you can see execution time for `compile` didn't change much however it is improved for the others.
 We can improve this by caching the artifacts to use in later executions. 
 
-In this example caching the artifacts to prevent downloading same artifacts for each run makes much more sense hovewer you can make use of workspaces in situations such that a job depends on an artifact as an output of another job.
+In this example caching the artifacts to prevent downloading same artifacts for each run makes much more sense however you can make use of workspaces in situations such that a job depends on an artifact as an output of another job.
 
 ## Caching dependencies
 
@@ -184,9 +184,9 @@ To restore from cache:
     key: sbt-cache
 ```
 
-And don't forget to add `restore_cache` to `compile`job. We can restore the caches before checking out the code. This will come in handy, when we decide to cache the source code also :wink:
+And don't forget to add `restore_cache` to `compile` job. We can restore the caches before checking out the code. This will come in handy when we decide to cache the source code also :wink:
 
-Let's observe execution time.
+Let's observe the execution time.
 
 First run after the push:
 
@@ -194,7 +194,7 @@ First run after the push:
     alt="Workspace created"
     style="float: left; margin-right: 10px; margin-bottom: 10px; margin-top: 10px;">
 
-As you can see `compile` job took a little bit longer to complete because of the newly added step, but other jobs took same amount of time to complete. Now run it again.
+As you can see `compile` job took a little bit longer to complete because of the newly added step, but other jobs took the same amount of time to complete. Now run it again.
 
 Second run after the push:
 <img src="https://s3.eu-central-1.amazonaws.com/tutorial.assets/circleci/m2-cache-2.png"
@@ -203,16 +203,16 @@ Second run after the push:
 
 As the dependencies are in cache ready to roll, `compile` job didn't have to download them again but instead executed the command directly. 
 
-# Creating custom image
+# Creating a custom image
 
 By using caching, we saved ourselves from downloading the same dependencies over and over again and improved our execution time for the workflow. Now we are ready to tackle the other problem, which is 
 downloading the same applications for each job over and over again.
 
 We need sbt and docker to complete the execution of the workflow. Instead of downloading and installing them in the context of each job, we can create a docker image with them and use that image in each job.
 
-Althought there are some other solutions and workaronds to cache and reuse the downloaded applications, this solution is actually more convenient since we can use the same image for different tasks, instead of creating and maintaning caches.
+Although there are some other solutions and workarounds to cache and reuse the downloaded applications, this solution is actually more convenient since we can use the same image for different tasks, instead of creating and maintaining caches.
 
-So let's start creating docker image. This is actually pretty straight forward, we are going to run the same commands, however this time we are going to do this in a Dockerfile.
+So let's start creating a docker image. This is actually pretty straight forward, we are going to run the same commands, however this time we are going to do this in a Dockerfile.
 
 ```
 FROM openjdk:8
@@ -232,9 +232,9 @@ RUN curl -L -o /tmp/docker-$DOCKER_VERSION.tgz https://get.docker.com/builds/Lin
 
 Let's go over the file.
 
-We are going to use `openjdk:8` image as a base image for our image. Then we installed curl to be able to make http calls and lastly we downloaded and installed `sbt` and `docker` apps.
+We are going to use `openjdk:8` image as a base image for our image. Then we installed curl to be able to make HTTP calls and lastly, we downloaded and installed `sbt` and `docker` apps.
 
-Build the image with command
+Build the image with the command
 
 ```
  docker build -t <<tag>> .
@@ -246,7 +246,7 @@ And push it with command
  docker push <<tag>>
 ```
 
-Now we can get start using our in our `config.yml` and get rid of the commands to download and install the apps that we included in our docker image.
+Now we can start using our in our `config.yml` and get rid of the commands to download and install the apps that we included in our docker image.
 
 # Latest status
 
