@@ -545,9 +545,9 @@ Also, we can check if the docker image is published or not.
 
 # References
 
-- <a>https://www.thoughtworks.com/continuous-integration</a>
-- <a>https://circleci.com/docs/2.0/about-circleci/</a>
-- <a>https://hackernoon.com/continuous-integration-circleci-vs-travis-ci-vs-jenkins-41a1c2bd95f5</a>
-- <a>https://circleci.com/docs/2.0/language-scala/</a>
-- <a>https://circleci.com/docs/2.0/tutorials/</a>
+- <a href="https://www.thoughtworks.com/continuous-integration">https://www.thoughtworks.com/continuous-integration</a>
+- <a href="https://circleci.com/docs/2.0/about-circleci/">https://circleci.com/docs/2.0/about-circleci/</a>
+- <a href="https://hackernoon.com/continuous-integration-circleci-vs-travis-ci-vs-jenkins-41a1c2bd95f5">https://hackernoon.com/continuous-integration-circleci-vs-travis-ci-vs-jenkins-41a1c2bd95f5</a>
+- <a href="https://circleci.com/docs/2.0/language-scala/">https://circleci.com/docs/2.0/language-scala/</a>
+- <a href="https://circleci.com/docs/2.0/tutorials/">https://circleci.com/docs/2.0/tutorials/</a>
 

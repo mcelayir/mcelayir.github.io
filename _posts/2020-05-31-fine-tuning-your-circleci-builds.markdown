@@ -325,7 +325,7 @@ caching for the dependencies we improved our execution time.
 # References
 
 <ul>
-    <li>https://circleci.com/docs/2.0/configuration-reference/</li>
-    <li>https://circleci.com/blog/deep-diving-into-circleci-workspaces/</li>
+    <li><a href="https://circleci.com/docs/2.0/configuration-reference/">https://circleci.com/docs/2.0/configuration-reference/</a></li>
+    <li><a  href="https://circleci.com/blog/deep-diving-into-circleci-workspaces/">https://circleci.com/blog/deep-diving-into-circleci-workspaces/</a></li>
 </ul>
 
