@@ -15,7 +15,7 @@ Flutter does not use Javascript but uses Dart, a simple object-oriented programm
 
 Flutter doesn't use native UI components. Instead Flutter, has its own UI components (they are called <a href="https://flutter.dev/docs/development/ui/widgets">widgets</a>) and an engine to render them on both Android and IOS platforms.
 
-Also I would like to mention that Flutter hos `Hot Reload` feature which allows developers to change the code and reload as the application runs.
+Also I would like to mention that Flutter has `Hot Reload` feature which allows developers to change the code and reload as the application runs.
 
 # Installing flutter
 
