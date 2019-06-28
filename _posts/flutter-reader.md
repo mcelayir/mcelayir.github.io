@@ -38,7 +38,7 @@ be created by selecting Flutter under <i> New Project</i>.
 
 <img src="https://s3.eu-central-1.amazonaws.com/tutorial.assets/flutter/Screenshot+2019-06-26+at+22.13.31.png"/>
 
-Also Flutter SDK can be downloaded from this menu.
+Also, if you have not yet installed the SDK, it can be downloaded via this menu.
 
 # App overview
 
@@ -51,20 +51,41 @@ Sources 1             |  Sources 2
 ![](https://s3.eu-central-1.amazonaws.com/tutorial.assets/flutter/Simulator+Screen+Shot+-+iPhone+X%CA%80+-+2019-06-26+at+22.51.16.png)  |  ![](https://s3.eu-central-1.amazonaws.com/tutorial.assets/flutter/Simulator+Screen+Shot+-+iPhone+X%CA%80+-+2019-06-26+at+23.04.42.png)
 
 
-
 # Code organization
 
-# Coding
+# Adding dependencies
 
-# Widgets
+# Step 1 - Categories and Sources
 
-#
+## Data Service
+
+## Information about widgets
+
+## UI
+
+# Step 2 - Feeds of sources
+
+## Rss Reader Service
+
+## UI
+
+# Step 3 - Navigation
+
+# Step 4 - Custom control app bar with back button
+
+# Step 5 - Web view
+
+# Step 6 - Adding fonts
+
+# Step 7 - Adding like and dislike buttons
 
 # References
 <ul>
-    <li><a href="https://flutter.dev/docs/resources/technical-overview">https://flutter.dev/docs/resources/technical-overview</a></li>
-    <li><a href="https://hackernoon.com/whats-revolutionary-about-flutter-946915b09514">https://hackernoon.com/whats-revolutionary-about-flutter-946915b09514</a></li>
-    <li><a href="https://blog.codemagic.io/what-is-flutter-benefits-and-limitations/">https://blog.codemagic.io/what-is-flutter-benefits-and-limitations/</a></li>
+<li><a href="https://flutter.dev/docs/resources/technical-overview">https://flutter.dev/docs/resources/technical-overview</a></li>
+
+<li><a href="https://hackernoon.com/whats-revolutionary-about-flutter-946915b09514">https://hackernoon.com/whats-revolutionary-about-flutter-946915b09514</a></li>
+
+<li><a href="https://blog.codemagic.io/what-is-flutter-benefits-and-limitations/">https://blog.codemagic.io/what-is-flutter-benefits-and-limitations/</a></li>
 
 <li><a href="https://flutter.dev/docs/get-started/install"> https://flutter.dev/docs/get-started/install</a></li>
     
