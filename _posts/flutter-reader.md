@@ -53,7 +53,26 @@ Sources 1             |  Sources 2
 
 # Code organization
 
+Main.dart bahset
+
 # Adding dependencies
+In this tutorial we are going to make http requests, read rss files and show content inside a webview. To do that, we are going to need following packages.
+
+<ul>
+    <li><i>http</i> to make http requests</li>
+    <li><i>webfeed</i> to parse rss feeds</li>
+    <li><i>webview_flutter</i> to abe able to use webview component</li>
+</ul>
+
+You can add following lines to the `pubspec.yaml`file and hit the `Packages get` button in the top left of the window.
+
+```yaml
+  http: ^0.12.0+2
+  webfeed: ^0.4.2
+  webview_flutter: ^0.3.9+1
+```
+
+<img src="https://s3.eu-central-1.amazonaws.com/tutorial.assets/flutter/Screenshot+2019-06-28+at+22.30.09.png"/>
 
 # Step 1 - Categories and Sources
 
