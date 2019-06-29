@@ -76,11 +76,178 @@ You can add following lines to the `pubspec.yaml`file and hit the `Packages get`
 
 # Step 1 - Categories and Sources
 
+## Defining assets
+
+In this step we are going to build our first screen, where user will select the source to be readed.
+
+So let's start with defining and loading the data. We are going to load 
+categories and sources assigned to them from a JSON file.
+
+Create a directory named `data` in your projects root directory and create `categories.json` file under it.
+
+Our json data will be the following. Please minify the content in a <a href="https://codebeautify.org/jsonviewer">json modifier</a> before pasting it. There is a problem with the pretty printed json files while loading them which I couldn't figured out. If you have a solution for this, please reach out.
+
+```json
+[
+  {
+    "id": 1,
+    "name": "news",
+    "sources": [
+      {
+        "name": "BBC News",
+        "link": "http://feeds.bbci.co.uk/news/rss.xml",
+        "thumbnail": "https://pbs.twimg.com/profile_images/1001759983363641344/pJANPf_h_400x400.jpg"
+      },
+      {
+        "name": "CNN",
+        "link": "http://rss.cnn.com/rss/edition.rss",
+        "thumbnail": "https://pbs.twimg.com/profile_images/508960761826131968/LnvhR8ED_400x400.png"
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "name": "sports",
+    "sources": [
+      {
+        "name": "NBA",
+        "link": "http://feeds.feedburner.com/nba/PdXr",
+        "thumbnail": "https://pbs.twimg.com/profile_images/921248739746033665/cjBVcCJG_400x400.jpg"
+      },
+      {
+        "name": "ESPN FC",
+        "link": "http://feeds.feedburner.com/espnfc/ziBg",
+        "thumbnail": "https://pbs.twimg.com/profile_images/993576884498849792/zH7kViGI_400x400.jpg"
+      },
+      {
+        "name": "Four Four Two",
+        "link": "http://feeds.feedburner.com/fourfourtwo/qNct",
+        "thumbnail": "https://the18.com/sites/default/files/FourFourTwo-Logo.jpg"
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "name": "technology",
+    "sources": [
+      {
+        "name": "BBC Technology",
+        "link": "http://feeds.bbci.co.uk/news/technology/rss.xml",
+        "thumbnail": "https://pbs.twimg.com/profile_images/1001759983363641344/pJANPf_h_400x400.jpg"
+      },
+      {
+        "name": "CNN Technology",
+        "link": "http://rss.cnn.com/rss/edition_technology.rss",
+        "thumbnail": "https://pbs.twimg.com/profile_images/508960761826131968/LnvhR8ED_400x400.png"
+      }
+    ]
+  }
+]
+```
+To be able to access this file, we have to define it as an `asset`in `pubspec.yaml` file.
+
+Define the file as following.
+
+```yaml
+flutter:
+
+  assets:
+    - data/categories.json
+```
+
+## Model
+
+Our data consist of categories and their associated sources. We can create two classes to model our data. 
+
+```dart
+class Category{
+  int id;
+  String name;
+  List<Source> sources;
+
+  Category({this.id, this.name, this.sources});
+
+  factory Category.fromJson(Map<String, dynamic> map){
+
+    List<Source> _parseSources(List<dynamic> map){
+      List<Source> list = map.map((item) => Source.fromJson(item)).toList();
+      return list;
+    }
+
+    return Category(
+        id: map['id'],
+        name: map['name'],
+        sources: _parseSources(map['sources'])
+    );
+  }
+
+}
+
+class Source {
+  String name;
+  String thumbnailUrl;
+  String link;
+
+  Source({this.name, this.thumbnailUrl, this.link});
+
+  factory Source.fromJson(Map<String, dynamic> map){
+    return Source(
+        name: map['name'],
+        thumbnailUrl: map['thumbnail'],
+        link: map['link']
+    );
+  }
+}
+```
+
+Notice that, we had to implement `factory <Classs>.fromJson(Map<String, dynamic> map)` to instruct the object, how to parse itself from json.
+
 ## Data Service
+
+Now let's read load and parse the json file.
+
+In `dart` there is no special keyword for interface, but a class can implement another class using `implements` keyword. The reason for that is, in `dart`, every class implicitly defines an interface containing all the instance members of the class and of any interfaces it implements.
+
+Abstract classes can be defined using `abstract`keyword. An `abstract class` key either be `implemented`or `extended`.
+
+Create an abstract class to define our data service API and the concrete class to load data from json file.
+
+```dart
+abstract class DataService{
+  Future<List<Category>> getCategories();
+}
+
+class JsonDataService extends DataService{
+
+  static final String filePath = 'data/categories.json';
+
+  @override
+  Future<List<Category>> getCategories() async{
+    String content = await _loadAssetFile();
+    List<dynamic> parsedJson = json.decode(content);
+    return parsedJson.map((value) => Category.fromJson(value)).toList();
+  }
+
+  Future<String> _loadAssetFile() async {
+    return await rootBundle.loadString(filePath);
+  }
+
+}
+```
+
+Let's walk over this code:
+- `rootBundle` is used to access the file and content loaded with `loadString`method.
+- To use asyncronious features, like `await`, a method should be marked as `async`. 
+- `json.decode` method converts json string to a `Map` object.
+- `map` method used to transform data into list of plain objects.
 
 ## Information about widgets
 
 ## UI
+
+<img 
+style="width:80%; height:80%"
+src="https://s3.eu-central-1.amazonaws.com/tutorial.assets/flutter/Simulator+Screen+Shot+-+iPhone+X%CA%80+-+2019-06-26+at+22.51.16.png"/>
 
 # Step 2 - Feeds of sources
 
@@ -107,5 +274,7 @@ You can add following lines to the `pubspec.yaml`file and hit the `Packages get`
 <li><a href="https://blog.codemagic.io/what-is-flutter-benefits-and-limitations/">https://blog.codemagic.io/what-is-flutter-benefits-and-limitations/</a></li>
 
 <li><a href="https://flutter.dev/docs/get-started/install"> https://flutter.dev/docs/get-started/install</a></li>
+
+https://flutter.dev/docs/cookbook/networking/fetch-data
     
 </ul>
