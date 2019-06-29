@@ -5,13 +5,13 @@ date:   2019-05-31
 categories: posts
 ---
 
-# What is flutter
+# What is Flutter
 
-Flutter is a free and open-source mobile application development SDK for building high-performance, native-looking apps for IOS and Android sharing the same codebase. Flutter aims to make development process easier, quick and more productive.
+Flutter is a free and open-source mobile application development SDK for building high-performance, native-looking apps for IOS and Android sharing the same codebase. Flutter aims to make the development process easier, quick and more productive.
 
 # What makes flutter cool
 
-Flutter does not use Javascript but uses Dart, a simple object-oriented programming language. Since it is compiled into binary code, Dart can run like a native app and communicate with the platform without using a Javascript bridge. That's why it is more performant then other cross platform development SDKs.
+Flutter does not use Javascript but uses Dart, a simple object-oriented programming language. Since it is compiled into binary code, Dart can run like a native app and communicate with the platform without using a Javascript bridge. That's why it is more performant than other cross-platform development SDKs.
 
 Flutter doesn't use native UI components. Instead Flutter, has its own UI components (they are called <a href="https://flutter.dev/docs/development/ui/widgets">widgets</a>) and an engine to render them on both Android and IOS platforms.
 
@@ -23,9 +23,9 @@ Lastly, Flutter is a very useful tool for prototyping and creating mockups as it
 
 To install flutter on your machine, simply check suitable <a href="https://flutter.dev/docs/get-started/install">installation guide</a> for your platform.
 
-Flutter SDK can also be installed using official Intellij plugin.
+Flutter SDK can also be installed using official IntelliJ plugin.
 
-# Installing Intellij plugin
+# Installing IntelliJ plugin
 
 To install the Intellij plugin for Flutter. Go to <i>Preferences > Plugins</i>, select <i>Browse Repositories</i> and search for <i>Flutter</i>. 
 
@@ -33,7 +33,7 @@ To install the Intellij plugin for Flutter. Go to <i>Preferences > Plugins</i>, 
 
 # Creating a new project
 
-Now, with the Flutter pluggin installed, a template project can easily 
+Now, with the Flutter plugin installed, a template project can easily 
 be created by selecting Flutter under <i> New Project</i>.
 
 <img src="https://s3.eu-central-1.amazonaws.com/tutorial.assets/flutter/Screenshot+2019-06-26+at+22.13.31.png"/>
@@ -44,9 +44,11 @@ Also, if you have not yet installed the SDK, it can be downloaded via this menu.
 
 In this tutorial, we are going to build a simple JSON/XML reader application. 
 
+Source code for this project can be found <a href="https://github.com/muratcancelayir/flutter_reader">here</a>.
+
 # Adding dependencies
 
-In this tutorial we are going to make http requests, read rss files and show content inside a webview. To do that, we are going to need following packages.
+In this tutorial we are going to make HTTP requests, read RSS files and show content inside a web view. To do that, we are going to need following packages.
 
 <ul>
     <li><i>http</i> to make http requests</li>
@@ -54,7 +56,7 @@ In this tutorial we are going to make http requests, read rss files and show con
     <li><i>webview_flutter</i> to abe able to use webview component</li>
 </ul>
 
-You can add following lines to the `pubspec.yaml`file and hit the `Packages get` button in the top left of the window.
+You can add the following lines to the `pubspec.yaml` file and hit the `Packages get` button in the top left of the window.
 
 ```yaml
   http: ^0.12.0+2
@@ -68,14 +70,14 @@ You can add following lines to the `pubspec.yaml`file and hit the `Packages get`
 
 ## Defining assets
 
-In this step we are going to build our first screen, where user will select the source to be readed.
+In this step we are going to build our first screen, where users will select the source to be read.
 
 So let's start with defining and loading the data. We are going to load 
 categories and sources assigned to them from a JSON file.
 
 Create a directory named `data` in your projects root directory and create `categories.json` file under it.
 
-Our json data will be the following. Please minify the content in a <a href="https://codebeautify.org/jsonviewer">json modifier</a> before pasting it. There is a problem with the pretty printed json files while loading them which I couldn't figured out. If you have a solution for this, please reach out.
+Our JSON data will be the following. Please minify the content in a <a href="https://codebeautify.org/jsonviewer">json modifier</a> before pasting it. There is a problem with the pretty printed JSON files while loading them which I couldn't figure out. If you have a solution for this, please reach out.
 
 ```json
 [
@@ -136,7 +138,7 @@ Our json data will be the following. Please minify the content in a <a href="htt
 ```
 To be able to access this file, we have to define it as an `asset`in `pubspec.yaml` file.
 
-Define the file as following.
+Define the file as follows.
 
 ```yaml
 flutter:
@@ -190,17 +192,17 @@ class Source {
 }
 ```
 
-Notice that, we had to implement `factory <Classs>.fromJson(Map<String, dynamic> map)` to instruct the object, how to parse itself from json.
+Notice that, we had to implement `factory <Classs>.fromJson(Map<String, dynamic> map)` to instruct the object, how to parse itself from JSON.
 
 ## Data Service
 
-Now let's read load and parse the json file.
+Now let's read load and parse the JSON file.
 
-In `dart` there is no special keyword for interface, but a class can implement another class using `implements` keyword. The reason for that is, in `dart`, every class implicitly defines an interface containing all the instance members of the class and of any interfaces it implements.
+In Dart there is no special keyword to define an interface, but a class can implement another class using `implements` keyword. The reason for that is, in `dart`, every class implicitly defines an interface containing all the instance members of the class and of any interfaces it implements.
 
-Abstract classes can be defined using `abstract`keyword. An `abstract class` key either be `implemented`or `extended`.
+Abstract classes can be defined using `abstract` keyword. An `abstract class` key either be `implemented` or `extended`.
 
-Create an abstract class to define our data service API and the concrete class to load data from json file.
+Create an abstract class to define our data service API and the concrete class to load data from the JSON file.
 
 ```dart
 abstract class DataService{
@@ -222,10 +224,10 @@ class JsonDataService extends DataService{
 ```
 
 Let's walk over this code:
-- `rootBundle` is used to access the file and content loaded with `loadString`method.
-- To use asyncronious features, like `await`, a method should be marked as `async`. 
-- `json.decode` method converts json string to a `Map` object.
-- `map` method used to transform data into list of plain objects.
+- `rootBundle` is used to access the file and content loaded with `loadString` method.
+- To use asynchronous features, like `await`, a method should be marked as `async`. 
+- `json.decode` method converts JSON string to a `Map` object.
+- `map` method used to transform data into a list of plain objects.
 
 Now we have our data to display is ready. We can start implementing the interface.
 
@@ -239,7 +241,7 @@ There are two types of widgets:
 ### Stateless widgets
 
 As their name indicates, this type of widgets doesn't hold any state.
-An icon would be a great example for a stateless widget. An image is set for the icon during creating and it doesn't change. Also Text
+An icon would be a great example of a stateless widget. An image is set for the icon during creating and it doesn't change. Also Text
 widget is another example of a stateless widget. Text widget doesn't have a text property, that can be changed. To change the text value, you simply recreate a widget.
 
 ### Stateful widgets
@@ -260,11 +262,11 @@ Widget CategoryHeader(BuildContext context, Category category){
 }
 ```
 
-The widget takes a `BuildContext` and a `Category`and when called it will return a `ListTile` widget under the hood.
+The widget takes a `BuildContext` and a `Category` and when called it will return a `ListTile` widget under the hood.
 
 ## Source card
 
-For source card, we are going to return a `Card` widget.
+For the `Source card`, we are going to return a `Card` widget.
 
 ```dart
 Widget SourceCard(BuildContext context, Source source){
@@ -375,13 +377,13 @@ class CategoryRoute extends StatelessWidget {
 ```
 Things to mention here:
 - The `Scaffold` is an important feature. In Flutter, `Scaffold` implements the basic material design visual layout structure. Multiple widgets can be composed with `Scaffold`.
-- `FutureBuilder`builds itself based on the latestinteraction with a Future. The result of the interaction is obtained through `snapshot.data`.
+- `FutureBuilder` builds itself based on the latest interaction with a Future. The result f the interaction is obtained through `snapshot.data`.
 - Since our has a nested structure, we used `_flatten` (`_`is for indicating private methods) method to create a list that contains both categories and sources as seperate objects.
 - In Dart, type check can be done with `is` operator.
 - `InkWell` widget is used to make the item clickable.
 - `Center` is used to centerize its childs.
 
-To make Flutter show this route on startup, we have to define it in `home` section of the main widget.
+To make Flutter show this route on startup, we have to define it in the `home` section of the main widget.
 
 Change the `main.dart` with the following and run the application.
 
@@ -413,7 +415,7 @@ src="https://s3.eu-central-1.amazonaws.com/tutorial.assets/flutter/Simulator+Scr
 
 ## Rss Reader Service
 
-We should define a rss service to get rss files over http and parse them.
+We should define an rss service to get rss files over http and parse them.
 
 ```dart
 class RssService {
@@ -481,7 +483,7 @@ Widget SourceCard(BuildContext context, RssItem rssItem){
 
 ## Displaying Feed Items.
 
-Create another route to display rss feed items as list.
+Create another route to display rss feed items as a list.
 
 ```dart
 class SourceFeedRoute extends StatelessWidget {
@@ -533,7 +535,7 @@ class SourceFeedRoute extends StatelessWidget {
 
 # Step 3 - Navigation
 
-To navigate between routes, we have to push them to navigator.
+To navigate between routes, we have to push them to the navigator.
 
 Change the `InkWell` widget in `CategoryRoute` to add navigation capability to `SourceFeedRoute`.
 
@@ -602,7 +604,7 @@ Navigator.push(
 
 With this way, we created a new `WebViewRoute` widget and passed rss items link to it.
 
-One thing before testing, we have to update `Info.plist` file inside `ios > Runner` for our webview to work.
+One thing before testing, we have to update `Info.plist` the file inside `ios > Runner` for our web view to work.
 
 Append your `Info.plist` with the following.
 
