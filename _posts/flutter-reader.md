@@ -223,13 +223,9 @@ class JsonDataService extends DataService{
 
   @override
   Future<List<Category>> getCategories() async{
-    String content = await _loadAssetFile();
+    String content = await rootBundle.loadString(filePath);
     List<dynamic> parsedJson = json.decode(content);
     return parsedJson.map((value) => Category.fromJson(value)).toList();
-  }
-
-  Future<String> _loadAssetFile() async {
-    return await rootBundle.loadString(filePath);
   }
 
 }
@@ -241,9 +237,175 @@ Let's walk over this code:
 - `json.decode` method converts json string to a `Map` object.
 - `map` method used to transform data into list of plain objects.
 
+Now we have our data to display is ready. We can start implementing the interface.
+
 ## Information about widgets
 
-## UI
+It is safe to begin by saying, in Flutter, everything is a widget. Widgets are pieces of the user interface that are generally small and
+reusable. Widgets are similar to views (or UIView) in Android and IOS.
+
+There are two types of widgets:
+
+### Stateless widgets
+
+As their name indicates, this type of widgets doesn't hold any state.
+An icon would be a great example for a stateless widget. An image is set for the icon during creating and it doesn't change. Also Text
+widget is another example of a stateless widget. Text widget doesn't have a text property, that can be changed. To change the text value, you simply recreate a widget.
+
+### Stateful widgets
+
+A stateful widget comes with two classes: the widget itself and the state class. They are used to keep track of changes and update the UI based on those changes. When the values in the State object change,
+a new widget is created. 
+
+## Category header
+
+We are going to create a simple widget to display our categories as headers.
+
+```dart
+Widget CategoryHeader(BuildContext context, Category category){
+
+  return ListTile(
+    title: Text(category.name),
+  );
+}
+```
+
+The widget takes a `BuildContext` and a `Category`and when called it will return a `ListTile` widget under the hood.
+
+## Source card
+
+For source card, we are going to return a `Card` widget.
+
+```dart
+Widget SourceCard(BuildContext context, Source source){
+
+  return
+    new Card(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            new Container(
+                padding: const EdgeInsets.all(10.0),
+                width:200.0,
+                height: 200.0,
+                decoration: new BoxDecoration(
+                    shape: BoxShape.circle,
+                    image: new DecorationImage(
+                        fit: BoxFit.fill,
+                        image: new NetworkImage(source.thumbnailUrl)
+                    )
+                )),
+            SizedBox(height: 10),
+            new Text(source.name,
+              textScaleFactor: 1.5,
+              style: new TextStyle(
+                fontFamily: "Open Sans",
+                fontSize: 20.0,
+              ),
+            )
+          ],
+        )
+    );
+}
+```
+
+## List view
+
+Now that we created the blueprints to display our data. We can now implement the route (or layout whatever you want to say) to display them.
+
+```dart
+class CategoryRoute extends StatelessWidget {
+
+  final DataService loader = new JsonDataService();
+
+  List<Object> _flatten(Category category){
+    final List<Object> result = new List();
+    result.add(category);
+    category.sources.forEach((item) => result.add(item));
+    return result;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+
+    return Scaffold(
+      appBar: AppBar(title: Text('Sources')),
+      body: new FutureBuilder<List<Category>>(
+        future: loader.getCategories(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+
+
+            List<Object> list = new List();
+            snapshot.data.forEach((item) =>
+                list.addAll(_flatten(item))
+            );
+
+            return new Container(
+                padding: new EdgeInsets.all(20.0),
+                child: new ListView.separated(
+                    itemCount: list.length,
+                    itemBuilder: (context, index) {
+
+                      Object item = list[index];
+                      if(item is Category){
+                        return CategoryHeader(context, item);
+
+                      } else if(item is Source){
+                        return
+                          InkWell(
+                              onTap: () {
+                                print('tapped');
+                              },
+                              child: SourceCard(context, item)
+                          );
+                      }
+                    },
+                    separatorBuilder: (context, index) {
+                      return Divider();
+                    })
+            );
+          } else if (snapshot.hasError) {
+            return new Text("${snapshot.error}");
+          }
+          return new CircularProgressIndicator();
+        },
+      ),
+    );
+  }
+
+}
+```
+Things to mention here:
+- The `Scaffold` is an important feature. In Flutter, `Scaffold` implements the basic material design visual layout structure. Multiple widgets can be composed with `Scaffold`.
+- `FutureBuilder`builds itself based on the latestinteraction with a Future. The result of the interaction is obtained through `snapshot.data`.
+- Since our has a nested structure, we used `_flatten` (`_`is for indicating private methods) method to create a list that contains both categories and sources as seperate objects.
+- In Dart, type check can be done with `is` operator.
+
+To make Flutter show this route on startup, we have to define it in `home` section of the main widget.
+
+Change the `main.dart` with the following and run the application.
+
+```dart
+void main() => runApp(MyApp());
+
+class MyApp extends StatelessWidget {
+  // This widget is the root of your application.
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Flutter Reader',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: new CategoryRoute(),
+    );
+  }
+}
+```
+
+Now, you should be able to see the app running successfully.
 
 <img 
 style="width:80%; height:80%"
@@ -263,6 +425,8 @@ src="https://s3.eu-central-1.amazonaws.com/tutorial.assets/flutter/Simulator+Scr
 
 # Step 6 - Adding fonts
 
+# Step 7 - styling
+
 # Step 7 - Adding like and dislike buttons
 
 # References
@@ -276,5 +440,9 @@ src="https://s3.eu-central-1.amazonaws.com/tutorial.assets/flutter/Simulator+Scr
 <li><a href="https://flutter.dev/docs/get-started/install"> https://flutter.dev/docs/get-started/install</a></li>
 
 https://flutter.dev/docs/cookbook/networking/fetch-data
+
+https://flutterbyexample.com/flutter-widgets/
+
+https://pusher.com/tutorials/flutter-widgets
     
 </ul>
