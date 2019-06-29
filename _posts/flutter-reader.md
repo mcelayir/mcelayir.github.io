@@ -44,18 +44,8 @@ Also, if you have not yet installed the SDK, it can be downloaded via this menu.
 
 In this tutorial, we are going to build a simple JSON/XML reader application. 
 
-First the app will read categories and sources (like BBC News or Goal.com) associated with those categories and display them for user to select.
-
-Sources 1             |  Sources 2
-:-------------------------:|:-------------------------:
-![](https://s3.eu-central-1.amazonaws.com/tutorial.assets/flutter/Simulator+Screen+Shot+-+iPhone+X%CA%80+-+2019-06-26+at+22.51.16.png)  |  ![](https://s3.eu-central-1.amazonaws.com/tutorial.assets/flutter/Simulator+Screen+Shot+-+iPhone+X%CA%80+-+2019-06-26+at+23.04.42.png)
-
-
-# Code organization
-
-Main.dart bahset
-
 # Adding dependencies
+
 In this tutorial we are going to make http requests, read rss files and show content inside a webview. To do that, we are going to need following packages.
 
 <ul>
@@ -576,11 +566,55 @@ src="https://s3.eu-central-1.amazonaws.com/tutorial.assets/flutter/Simulator+Scr
 
 # Step 5 - Web view
 
-# Step 6 - Adding fonts
+Now, everything in place, let's add the final part for the application which is displaying the content of an item inside a web view.
 
-# Step 7 - styling
+Let's create a route for the web view.
 
-# Step 7 - Adding like and dislike buttons
+```dart
+class WebViewRoute extends StatelessWidget {
+
+  final String link;
+  WebViewRoute(this.link);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text('Flutter Reader')),
+      body: Center(
+        child: WebView(
+          javascriptMode: JavascriptMode.unrestricted,
+          initialUrl: link,
+        ),
+      ),
+    );
+  }
+}
+````
+
+and navigation to `WebViewRoute`. 
+
+```dart
+Navigator.push(
+    context,
+    MaterialPageRoute(builder: (context) => WebViewRoute(item.link)), 
+);
+```
+
+With this way, we created a new `WebViewRoute` widget and passed rss items link to it.
+
+One thing before testing, we have to update `Info.plist` file inside `ios > Runner` for our webview to work.
+
+Append your `Info.plist` with the following.
+
+```xml
+<key>io.flutter.embedded_views_preview</key>
+<string>YES</string>
+```
+Run your application, and navigate to the content on an item.
+
+<img 
+style="width:80%; height:80%"
+src="https://s3.eu-central-1.amazonaws.com/tutorial.assets/flutter/Simulator+Screen+Shot+-+iPhone+X%CA%80+-+2019-06-29+at+19.18.49.png">
 
 # References
 <ul>
@@ -592,10 +626,13 @@ src="https://s3.eu-central-1.amazonaws.com/tutorial.assets/flutter/Simulator+Scr
 
 <li><a href="https://flutter.dev/docs/get-started/install"> https://flutter.dev/docs/get-started/install</a></li>
 
-https://flutter.dev/docs/cookbook/networking/fetch-data
+<li><a href="https://flutter.dev/docs/cookbook/networking/fetch-data">
+https://flutter.dev/docs/cookbook/networking/fetch-data</a></li>
 
-https://flutterbyexample.com/flutter-widgets/
+<li><a href="https://flutterbyexample.com/flutter-widgets/">https://flutterbyexample.com/flutter-widgets/</a></li>
 
-https://pusher.com/tutorials/flutter-widgets
+<li><a href="https://pusher.com/tutorials/flutter-widgets">https://pusher.com/tutorials/flutter-widgets</a></li>
+
+<li><a href="https://medium.com/flutterpub/flutter-webview-and-sharing-apps-79615d7f9a0d">https://medium.com/flutterpub/flutter-webview-and-sharing-apps-79615d7f9a0d</a></li>
     
 </ul>
