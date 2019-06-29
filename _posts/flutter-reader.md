@@ -331,50 +331,56 @@ class CategoryRoute extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(title: Text('Sources')),
-      body: new FutureBuilder<List<Category>>(
-        future: loader.getCategories(),
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-
-
-            List<Object> list = new List();
-            snapshot.data.forEach((item) =>
-                list.addAll(_flatten(item))
-            );
-
-            return new Container(
-                padding: new EdgeInsets.all(20.0),
-                child: new ListView.separated(
-                    itemCount: list.length,
-                    itemBuilder: (context, index) {
-
-                      Object item = list[index];
-                      if(item is Category){
-                        return CategoryHeader(context, item);
-
-                      } else if(item is Source){
-                        return
-                          InkWell(
-                              onTap: () {
-                                print('tapped');
-                              },
-                              child: SourceCard(context, item)
-                          );
-                      }
-                    },
-                    separatorBuilder: (context, index) {
-                      return Divider();
-                    })
-            );
-          } else if (snapshot.hasError) {
-            return new Text("${snapshot.error}");
-          }
-          return new CircularProgressIndicator();
-        },
-      ),
+      body: Center(
+      child:
+      new FutureBuilder<List<Category>>(
+          future: loader.getCategories(),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+  
+  
+              List<Object> list = new List();
+              snapshot.data.forEach((item) =>
+                  list.addAll(_flatten(item))
+              );
+  
+              return new Container(
+                  padding: new EdgeInsets.all(20.0),
+                  child: new ListView.separated(
+                      itemCount: list.length,
+                      itemBuilder: (context, index) {
+  
+                        Object item = list[index];
+                        if(item is Category){
+                          return CategoryHeader(context, item);
+  
+                        } else if(item is Source){
+                          return
+                            InkWell(
+                                onTap: () {
+                                  print('tapped');
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(builder: (context) => SourceFeedRoute(item)),
+                                  );
+                                },
+                                child: SourceCard(context, item)
+                            );
+                        }
+                      },
+                      separatorBuilder: (context, index) {
+                        return Divider();
+                      })
+              );
+            } else if (snapshot.hasError) {
+              return new Text("${snapshot.error}");
+            }
+            return new CircularProgressIndicator();
+          },
+        ),
+      )
     );
   }
-
 }
 ```
 Things to mention here:
@@ -382,6 +388,8 @@ Things to mention here:
 - `FutureBuilder`builds itself based on the latestinteraction with a Future. The result of the interaction is obtained through `snapshot.data`.
 - Since our has a nested structure, we used `_flatten` (`_`is for indicating private methods) method to create a list that contains both categories and sources as seperate objects.
 - In Dart, type check can be done with `is` operator.
+- `InkWell` widget is used to make the item clickable.
+- `Center` is used to centerize its childs.
 
 To make Flutter show this route on startup, we have to define it in `home` section of the main widget.
 
@@ -415,11 +423,156 @@ src="https://s3.eu-central-1.amazonaws.com/tutorial.assets/flutter/Simulator+Scr
 
 ## Rss Reader Service
 
-## UI
+We should define a rss service to get rss files over http and parse them.
+
+```dart
+class RssService {
+
+  Future<RssFeed> getFeed(String url) async{
+    print("fetching $url ... ");
+    var response = await get(url);
+    print("fetched with code: ${response.statusCode}");
+    return new RssFeed.parse(response.body);
+  }
+}
+```
+
+## Rss Item Card
+
+The card will be the same as the source card. If the rss item has a thumbnail, it will be displayed. If not only the title will be displayed.
+
+```dart
+Widget SourceCard(BuildContext context, RssItem rssItem){
+
+  String _getThumbUrl(){
+    if(rssItem.media.thumbnails.length > 0 ){
+      return rssItem.media.thumbnails[0].url;
+    }else if (rssItem.enclosure != null && rssItem.enclosure.url != null && rssItem.enclosure.url != ""){
+      return rssItem.enclosure.url;
+    }
+    return "";
+  }
+
+  double _getHeight(){
+    String thumb = _getThumbUrl();
+    if(thumb != "") return 300;
+    return 0;
+  }
+
+  return
+    new Card(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            new Container(
+                padding: const EdgeInsets.all(10.0),
+                height: _getHeight(),
+                decoration: new BoxDecoration(
+                    shape: BoxShape.rectangle,
+                    image: new DecorationImage(
+                        fit: BoxFit.fill,
+                        image: new NetworkImage(_getThumbUrl())
+                    )
+                )),
+            SizedBox(height: 10),
+            new Text(rssItem.title,
+              textScaleFactor: 1.5,
+              style: new TextStyle(
+                fontFamily: "Open Sans",
+                fontSize: 20.0,
+              ),
+            )
+          ],
+        )
+    );
+}
+```
+
+## Displaying Feed Items.
+
+Create another route to display rss feed items as list.
+
+```dart
+class SourceFeedRoute extends StatelessWidget {
+
+  final RssService rssService = new RssService();
+  final Source source;
+  SourceFeedRoute(this.source);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text(source.name)),
+      body: Center(
+      child:
+        new FutureBuilder<RssFeed>(
+          future: rssService.getFeed(source.link),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+
+              return new Container(
+                  padding: new EdgeInsets.all(20.0),
+                  child: new ListView.separated(
+                      itemCount: snapshot.data.items.length,
+                      itemBuilder: (context, index) {
+                        RssItem item = snapshot.data.items[index];
+                        return
+                          InkWell(
+                              onTap: () {
+                                print('tapped');
+                              },
+                              child: RssItemCard(context, item)
+                          );
+                      },
+                      separatorBuilder: (context, index) {
+                        return Divider();
+                      })
+              );
+            } else if (snapshot.hasError) {
+              return new Text("${snapshot.error}");
+            }
+            return new CircularProgressIndicator();
+        },
+      ),
+    )
+    );
+  }
+}
+```
 
 # Step 3 - Navigation
 
-# Step 4 - Custom control app bar with back button
+To navigate between routes, we have to push them to navigator.
+
+Change the `InkWell` widget in `CategoryRoute` to add navigation capability to `SourceFeedRoute`.
+
+```dart
+InkWell(
+    onTap: () {
+        print('tapped');
+        Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => SourceFeedRoute(item)),
+        );
+    },
+    child: SourceCard(context, item)
+);
+```
+
+Now select a source and navigate to its contents.
+
+<img 
+style="width:80%; height:80%"
+src="https://s3.eu-central-1.amazonaws.com/tutorial.assets/flutter/Simulator+Screen+Shot+-+iPhone+X%CA%80+-+2019-06-29+at+17.42.40.png">
+
+<img 
+style="width:80%; height:80%"
+src="https://s3.eu-central-1.amazonaws.com/tutorial.assets/flutter/Simulator+Screen+Shot+-+iPhone+X%CA%80+-+2019-06-29+at+17.42.48.png">
+
+<img 
+style="width:80%; height:80%"
+src="https://s3.eu-central-1.amazonaws.com/tutorial.assets/flutter/Simulator+Screen+Shot+-+iPhone+X%CA%80+-+2019-06-29+at+17.42.53.png">
 
 # Step 5 - Web view
 
