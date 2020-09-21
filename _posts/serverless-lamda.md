@@ -1,4 +1,4 @@
-1- What is serverless
+## What is serverless
 
 In order to understand what serverless is, we have to understand how applications or apis runs in the cloud.
 To be able to deliver the functionality, a server needs to be spinned up and accept connections which requires resources like CPU and RAM should be allocated. In addition to that you have to make sure that your server is running 24/7 to handle the requests and also you have to make sure that the server is behind firewalls with latest security patches applied and only the allowed ones are accessing it. 
@@ -11,7 +11,7 @@ Keeping all above in mind, serverless can be described as an execution model whe
 
 Of course servers still involve in the serverless, however you don't have to manage any physical server, virtual machines and you dont have to worry about the availability and scalability. Those are taken care by the cloud provider. All you have to do is to provide the piece of code that you want to run in response to an event (http request, finish notification for a file upload etc.) and do some configuration depending on the cloud provider.
 
-2- Why serverless
+## Why serverless
 
 Benefits of serverless
 
@@ -21,7 +21,17 @@ Benefits of serverless
 
 For big compaines, it probably doesnt pay to become dependant to a cloud provider and adapt the development and integration to satisfy the cloud providers requirements. However the advantages are priceless for independent developers and prototyping. Instead of paying for dedicated servers to host the application, developers can take advantage of serverless capabilities, get rid of the high cost for maybe halfly utilized servers. Last but not least, with serverless, developers can focus on building the product rather than managing servers and can reduce time to market.
 
-3- Function as a service
-4- Stateless functions
+## Function as a service (FaaS)
+
+Function as a service (FaaS) is a way of developing serverless applications where application is designed as seperate functions executed independently to achieve a task.
+
+While migrating from monoliths to microservices, we divided our application into microservices where each service describes a business funcionality. This improves agility of the organization since each microservice can be developed, tested and deployed independently.
+
+FaaS can be seen as an extension to microservice architecture. In Faas application is designed as piece of functions where each function satisfies a business goal. The difference is developers dont have to maintain a application servers. When the function is called the cloud provider is responsible for running the container, execute the functions with given parameters and return the output to the caller. 
+
+## Stateless functions
+
+
+
 5- Aws lambda and use cases
 6- Writing/deploying your first lamda function 
