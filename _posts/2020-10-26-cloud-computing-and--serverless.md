@@ -42,7 +42,7 @@ Right now all the cloud providers have a IaaS solution. Some popular examples ar
 - Google Compute Engine
 - Microsoft Azure
 
-Its also worth mentioning the costs for IaaS. It is obvious that it makes much more computing power avaliable for more cheaper costs. However in IaaS solutions you basically rent computing power so you billed based the computing power that you use. Eventhough cloud providers provides scaling options which can lower the costs you probably would run some instances for your applications availability that means using computing power. For example according to aws calculator, running a VM with 2 CPUS and 4G RAM can cost 400$ per month. 
+Its also worth mentioning the costs for IaaS. It is obvious that it makes much more computing power avaliable for more cheaper costs. However in IaaS solutions you basically rent computing power so you billed based the computing power that you use. Eventhough cloud providers provides scaling options which can lower the costs you probably would run some instances for your applications availability that means using computing power.
 
 To conclude, IaaS is the closest thing to having a data center. Its like having a data center affiliated by cloud provider. Moreover you can spread your data centers across the different parts of the globe but it comes with a price.
 
@@ -89,9 +89,25 @@ BaaS is used to describe the third party applications and/or services consumed b
 
 FaaS is a way of developing serverless applications where application is designed as seperate functions executed independently to achieve a task. Functions will run in stateless, ephemeral containers in response to a triggering event. The computing resources necessary to execute the function is in vendors responsibility.
 
-<img src="https://s3.eu-central-1.amazonaws.com/tutorial.assets/serverless/container-orchestration-wars-2017-edition-21-638.jpg" alt="https://techthought.org/wp-content/uploads/sites/2/2018/07/container-orchestration-wars-2017-edition-21-638.jpg" />
+## When Serverless is not recommended
+Alongside with all the amazing features that serverless has, it has its downsides.
 
-While moving right or left in the spectrum 
+To begin with, it is not ideal Long running applications better use dedicated resources for them as the resources for the function can cost more
+
+Secondly developers needs to be aware of the cold starts. When a function is invoked, the provider will spin up a container and execute the function. After the output the container will kept alive for certain amount of time and then will be terminated. If another requests comes in before the termination, the same container will be used. However after termination, another container will be created to handle the incoming request. Creating another container from scratch means that functions cannot trust the local storage to load a value needed for the calculation. This can lead to redesing of the application architecture. Also this will introduce a delay in the response time.
+
+Lastly depending on cloud provider there will be a overhead of invoking functions. Services could only be access by the defined interfaces of the provider which can limit development and deployment options. Becoming over adapted to a vendor will make things harder incase of a need to change.
+
+## Conclustion
+
+### XaaS
+
+<img src="https://s3.eu-central-1.amazonaws.com/tutorial.assets/serverless/container-orchestration-wars-2017-edition-21-638.jpg" alt="https://techthought.org/wp-content/uploads/sites/2/2018/07/container-orchestration-wars-2017-edition-21-638.jpg" />
+<b>IaaS:</b> Only the base infrastructure. Eveything needs to be configured by the end-user.
+
+<b>PaaS:</b> Platform to deploy, run and manage applications without dealing with the infrasturcture
+
+<b>FaaS:<b> Platform to deploy, run and functions in response to events without dealing with any sort of hardware
 
 ### Benefits of serverless
 
@@ -108,61 +124,8 @@ Benefits of serverless
 - Becoming vendor dependant. 
 - Losing control over platform and infrastructure
 - Not efficient for stateful applications and long running tasks
-- Cold-starts: means that platform needs to i
+- Cold-starts: means that platform needs to 
 - Brings overhead of adapting the microservices architecture if the organization is not ready
-
-### Case Study - Serverless Application Design
-
-### Function as a service (FaaS)
-
-FaaS is a way of developing serverless applications where application is designed as seperate functions executed independently to achieve a task.
-
-While migrating from monoliths to microservices, we divided our application into microservices where each service describes a business funcionality. This improves agility of the organization since each microservice can be developed, tested and deployed independently.
-
-FaaS can be seen as an extension to microservice architecture. Instead of In Faas application is designed as pieces of functions where each function satisfies a business goal. The difference is developers dont have to maintain a application servers. When the function is called the cloud provider is responsible for running the container, execute the functions with given parameters and return the output to the caller. 
-
-From deployment perspective, different from other `X as a service` types where generally servers needs to be managed by development teams, functions are deployed as a part of an application which can be further automatized depending on provider.
-
-## Usecases
-
-## When FaaS is not recommended
-When not to use
-
-Not ideal Long running applications better use dedicated resources for them as the resources for the function can cost more
-
-Also developers needs to be aware of the cold starts. When a function is invoked, the provider will spin up a container and execute the function. After the output the container will kept alive for certain amount of time and then will be terminated. If another requests comes in before the termination, the same container will be used. However after termination, another container will be created to handle the incoming request. Creating another container from scratch means that functions cannot trust the local storage to load a value needed for the calculation. This can lead to redesing of the application architecture. Also this will introduce a delay in the response time.
-
-Depending on cloud provider there will be a overhead of invoking functions. Services could only be access by the defined interfaces of the provider which can limit development options. Also developers can lose access to services beyond their control.
-
-Language constraints
-
-## Summary
-
-We can summarize the pros and cons of going serverless with a FaaS solution
-
-Pros:
-
-
-Cons:
-- Becoming provider dependant
-- Less control over the infrastructure
-- Application may need to be rewritteen to adapt FaaS architecture and to conform provider interfaces
-- Testing can become more complex depending on provider
-
-# Getting started with development
-
-## How to design
-
-
-## Stateless functions
-
-Reprase
-Applications were re-imagined as a modular collection of microservices that would be easier to test and maintain and independently deployable. If a microservice can only perform one action in response to an event, it could be considered a function. More complex microservices that can perform several actions may be comprised of several functions.
-
-Cold starts and testing
-
-5- Aws lambda and use cases
-6- Writing/deploying your first lamda function 
 
 
 REFS
