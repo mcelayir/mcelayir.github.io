@@ -107,7 +107,7 @@ Lastly depending on cloud provider there will be a overhead of invoking function
 
 <b>PaaS:</b> Platform to deploy, run and manage applications without dealing with the infrasturcture
 
-<b>FaaS:<b> Platform to deploy, run and functions in response to events without dealing with any sort of hardware
+<b>FaaS:</b> Platform to deploy, run and functions in response to events without dealing with any sort of hardware
 
 ### Benefits of serverless
 
