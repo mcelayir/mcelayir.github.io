@@ -98,11 +98,12 @@ Secondly developers needs to be aware of the cold starts. When a function is inv
 
 Lastly depending on cloud provider there will be a overhead of invoking functions. Services could only be access by the defined interfaces of the provider which can limit development and deployment options. Becoming over adapted to a vendor will make things harder incase of a need to change.
 
-## Conclustion
+## Conclusion
 
 ### XaaS
 
 <img src="https://s3.eu-central-1.amazonaws.com/tutorial.assets/serverless/container-orchestration-wars-2017-edition-21-638.jpg" alt="https://techthought.org/wp-content/uploads/sites/2/2018/07/container-orchestration-wars-2017-edition-21-638.jpg" />
+
 <b>IaaS:</b> Only the base infrastructure. Eveything needs to be configured by the end-user.
 
 <b>PaaS:</b> Platform to deploy, run and manage applications without dealing with the infrasturcture
