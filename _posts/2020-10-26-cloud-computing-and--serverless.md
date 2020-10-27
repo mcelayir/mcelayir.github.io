@@ -87,6 +87,12 @@ BaaS is used to describing the third-party applications and/or services consumed
 
 FaaS is another way of developing serverless where the application is designed as separate functions executed independently to achieve a task. Functions will run in stateless, ephemeral containers in response to a triggering event. The computing resources necessary to execute the function are the vendor's responsibility.
 
+### Img
+
+<img src="https://s3.eu-central-1.amazonaws.com/tutorial.assets/serverless/traditional-approach.png"/>
+
+<img src="https://s3.eu-central-1.amazonaws.com/tutorial.assets/serverless/serverless-approach.png" />
+
 ## When Serverless is not recommended
 Alongside all the amazing features that serverless has, it has its downsides.
 
@@ -96,7 +102,7 @@ Secondly, developers need to be aware of the cold starts. When a function is inv
 
 Lastly, depending on the cloud provider there will be an overhead of invoking functions. Services could only be access by the defined interfaces of the provider which can limit development and deployment options. Becoming over adapted to a vendor will make things harder in case of a need to change.
 
-## Conclusion
+## Summary
 
 ### XaaS
 
