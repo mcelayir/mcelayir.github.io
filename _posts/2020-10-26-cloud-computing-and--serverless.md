@@ -63,12 +63,15 @@ Function as a Service (FaaS) aka `the serverless` can be described as an executi
 
 Cloud provider charges based on the number of times that the function is executed. For example, AWS Lambda’s pricing is set on $0.20 per million requests and $0.00001667 per GB-s (Gigabyte per second) so you get 1 million requests and 400.000 GB-s per month for free.
 
+The key difference between PaaS and FaaS is in terms of scaling. On PaaS you have to think about scaling and do necessary configurations. On FaaS scalability comes out of the box. More resources will be allocated to handle the demand by the cloud provider.
+
 Some popular examples are
 - AWS Lambda
 - Google Functions
 - Azure Functions
 
 <img src="https://s3.eu-central-1.amazonaws.com/tutorial.assets/serverless/IaaS-PaaS-FaaS+Diagram_ASSIST_Software.png"/>
+
 To conclude, each computing model comes with a trade-off. Depending on the computing model that you choose you to increase or decrease your control over the platform that you run your application. This will affect the design of the application, how you program, and how you deploy. Choosing the right product according to your needs and budget is maybe the first decision that you make since everything will be shaped according to that.
 
 ## Serverless 
@@ -89,45 +92,71 @@ FaaS is another way of developing serverless where the application is designed a
 
 ### Designing for Serverless 
 
+Let's take Peter's bookstore application and take it to serverless. Let's assume that there is an already up and running application that users can
 
-Let's take Peter's bookstore application and take it to serverless. Lets assume that there is an already up and running application that users can
+- Log in to the application
+- Search for books
+- Purchase books 
 
-- login to the application
-- search for books
-- purchase books 
-
-and the existing application is a three-tier application consisting of following layers
+and the existing application is a three-tier application consisting of the following layers
 
 - Presentation (Client) Layer
-    This layer is where users interact with the application. Application as HTML, CSS and Javascript files will live here and served using by utilizing different technologies.
+    This layer is where users interact with the application. Application as HTML, CSS, and Javascript files will live here and served using by utilizing different technologies.
 
 - Business (Server) Layer
-    Business layer will be called from the presentation layer. It is responsible for handling all the requests received from the users like serving the list of books or taking purchase orders.
+    The business layer will be called from the presentation layer. It is responsible for handling all the requests received from the users like serving the list of books or taking purchase orders.
 
 - Storage (Database) Layer
     This is where the data needed to keep the business alive will be stored.
 
+<img src="https://s3.eu-central-1.amazonaws.com/tutorial.assets/serverless/traditional-approach.png"/>
+
 #### Monolith Phase
 
-Even though the application is divided into layers and the concerns are seperated  the bookstore server is a monolith which means the server is responsible to handle all of the requests coming from the clients and provide services for application to function is running inside the server. 
+Even though the application is divided into layers and the concerns are separated the bookstore server is a monolith which means the server is responsible to handle all of the requests coming from the clients and provide services for the application to function is running inside the server. 
 
-Now lets examine what kind of issues that we can run into with this design.
+Now let's examine what kind of issues that we can run into with this design.
 
 - Any failure that can make the server down would break down the entire functionality of the application
 
-- As the size of the application incrase in terms of functinality, the required computing power will also increase. Shortly more RAM more CPU
+- As the size of the application increase in terms of functionality, the required computing power will also increase. Shortly more, RAM more CPU needed to run the application in bare-minimum
 
-- Scaling up will be costly
+- Scaling up is expensive
 
-- The complexity of the code will increase as new functinality added. At some point, will become impossible to calculate the impact of changes.
+- The complexity of the code will increase as new functionality is added. At some point, will become impossible to calculate the impact of changes.
  
-<img src="https://s3.eu-central-1.amazonaws.com/tutorial.assets/serverless/traditional-approach.png"/>
-
 #### Microservices
 
+The idea of microservices is decomposing the application into smaller functional units called microservices, Each service is responsible for delivering a specific business function.
 
+<img src=https://s3.eu-central-1.amazonaws.com/tutorial.assets/serverless/microservices.jpg>
 
-<img src="https://s3.eu-central-1.amazonaws.com/tutorial.assets/serverless/serverless-approach.png" />
+Let's consider the advantages of the microservice architecture
+
+- Loosely-coupled components remove a single point of failure problem. The application can still continue to function even if some of the services are failing instead of being totally down.
+
+- Individual components bring flexible architecture. Any service can be replaced with another easily.
+
+- Components can scale up individually depending on the load of the service.
+
+- Each service can be developed individually on top of the most suitable technologies available for the solution.
+
+- Development complexity is reduced
+
+#### Serverless
+
+Up to now we developed all the source code for the services and hosted them on an IaaS or PaaS platform. We are constantly managing the infrastructure to keep the system up and running. 
+
+Applying microservice architecture, brought flexibility so that now we have the option of developing and deploying each service individually. Depending on many factors, we can choose to develop one service from scratch whereas choose a third-party service to deliver functionality.
+
+As with the serverless design philosophy, we want to move away from maintaining hardware. Moreover, we want to be more agile and focus on writing code that adds value to our customers.
+
+Coming back to our bookstore example, instead of having an authentication service, we can choose an existing BaaS solution like Firebase or AWS Cognito to delegate our user registration and login functionality. 
+
+We can consider search and purchase functionalities are critical for our business so instead of delegating to a third-party, we can choose to maintain them to deliver a better experience for our users. Instead of having always-on services for these functionalities, we converted them to functions that will run in response to a request from the user. Each function is integrated with a BaaS database to be able to store data.
+
+<img src="https://s3.eu-central-1.amazonaws.com/tutorial.assets/serverless/serverless.jpg" />
+
 
 ## When Serverless is not recommended
 Alongside all the amazing features that serverless has, it has its downsides.
