@@ -87,16 +87,52 @@ BaaS is used to describing the third-party applications and/or services consumed
 
 FaaS is another way of developing serverless where the application is designed as separate functions executed independently to achieve a task. Functions will run in stateless, ephemeral containers in response to a triggering event. The computing resources necessary to execute the function are the vendor's responsibility.
 
-### Img
+### Designing for Serverless 
 
+
+Let's take Peter's bookstore application and take it to serverless. Lets assume that there is an already up and running application that users can
+
+- login to the application
+- search for books
+- purchase books 
+
+and the existing application is a three-tier application consisting of following layers
+
+- Presentation (Client) Layer
+    This layer is where users interact with the application. Application as HTML, CSS and Javascript files will live here and served using by utilizing different technologies.
+
+- Business (Server) Layer
+    Business layer will be called from the presentation layer. It is responsible for handling all the requests received from the users like serving the list of books or taking purchase orders.
+
+- Storage (Database) Layer
+    This is where the data needed to keep the business alive will be stored.
+
+#### Monolith Phase
+
+Even though the application is divided into layers and the concerns are seperated  the bookstore server is a monolith which means the server is responsible to handle all of the requests coming from the clients and provide services for application to function is running inside the server. 
+
+Now lets examine what kind of issues that we can run into with this design.
+
+- Any failure that can make the server down would break down the entire functionality of the application
+
+- As the size of the application incrase in terms of functinality, the required computing power will also increase. Shortly more RAM more CPU
+
+- Scaling up will be costly
+
+- The complexity of the code will increase as new functinality added. At some point, will become impossible to calculate the impact of changes.
+ 
 <img src="https://s3.eu-central-1.amazonaws.com/tutorial.assets/serverless/traditional-approach.png"/>
+
+#### Microservices
+
+
 
 <img src="https://s3.eu-central-1.amazonaws.com/tutorial.assets/serverless/serverless-approach.png" />
 
 ## When Serverless is not recommended
 Alongside all the amazing features that serverless has, it has its downsides.
 
-To begin with, it is not ideal for long-running applications better use dedicated resources for them as the resources for the function can cost more
+To begin with, it is not ideal for long-running tasks instead it is better to use dedicated resources for this use case.
 
 Secondly, developers need to be aware of the cold starts. When a function is invoked, the provider will spin up a container and execute the function. After producing the output, the container can be kept alive for a certain amount of time, and then it will be terminated. If another request comes in before the termination, the same container will be used. However, after termination, another container will be created to handle the incoming request. Creating another container from scratch means that functions cannot trust the local storage to load a value needed for the calculation. This can lead to a re-design of the application architecture for performance. Also, keep in mind that cold-starts will introduce a delay in the response time.
 
