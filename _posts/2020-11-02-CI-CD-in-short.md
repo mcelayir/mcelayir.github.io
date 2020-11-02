@@ -28,15 +28,15 @@ CI / CD practices require developers to post changes frequently in small chunks.
 ## Continuous Delivery
 
 Continuous Delivery aims to deliver the code changes to the users reliably and sustainably. Code changes can be new features, improvements, configuration changes, or bug fixes and the changes needs to be delivered to users as they become available.
-After changes are integrated into the main branch, the code is build and the acceptance tests run. If the tests pass, generated artifacts are deployed to a artifact repository where they will be available for deployment.
+After changes are integrated into the main branch, the code is built and the acceptance tests run. If the tests pass, generated artifacts are deployed to an artifact repository where they will be available for deployment.
 
 <img src="https://s3.eu-central-1.amazonaws.com/tutorial.assets/cicd-in-short/cd.png"/>
 
 Advantages are
 
-- Ensuring that product meets QA standards.
-- QA prodecures automatized
-- Prevent producement of faulty products
+- Ensuring that the product meets QA standards.
+- QA procedures automatized
+-  Prevent producement of faulty products
 
 ## Continuous Deployment
 
@@ -54,7 +54,9 @@ Advantages are
 
 ## Conclusion
 
-CICD is the set of practices applied to automatize the delivery of the software product to the market. After developers push their changes, automated processes run to validate and assembly the software product and make them available for its consumers.
+CICD is the set of practices applied to automatize the delivery of the software product to the market. Applying these processes to the delivery process enables large teams to function efficiently and faster delivery of products while improving the quality.
+
+After developers push their changes, automated processes run to validate and assembly the software product and make them available to consumers.
 
 <img src="https://s3.eu-central-1.amazonaws.com/tutorial.assets/cicd-in-short/overall.png"/>
 
