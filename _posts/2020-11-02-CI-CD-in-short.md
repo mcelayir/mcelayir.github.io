@@ -26,14 +26,15 @@ CI / CD practices require developers to post changes frequently in small chunks.
 ## Continuous Delivery
 
 Continuous Delivery aims to deliver the code changes to the users reliably and sustainably. Code changes can be new features, improvements, configuration changes, or bug fixes and the changes needs to be delivered to users as they become available.
-After changes are integrated into the main branch, the artifacts are produced and often pushed to an artifactory. In the end, the generated artifact can be deployed as a release at any given time.
+After changes are integrated into the main branch, the code is build and the acceptance tests run. If the tests pass, generated artifacts are deployed to a artifact repository where they will be available for deployment.
 
 <img src="https://s3.eu-central-1.amazonaws.com/tutorial.assets/cicd-in-short/cd.png"/>
 
 Advantages are
 
-- Deployments performed at any given time
-- Faster time to market
+- Ensuring that product meets QA standards.
+- QA prodecures automatized
+- Prevent producement of faulty products
 
 ## Continuous Deployment
 
@@ -43,12 +44,16 @@ Continuous deployment is the step of bringing the produced software product toge
 
 Advantages are
 
+- Deployments performed at any given time
+- Deployments performed at any given time
+- Faster time to market
 - Reduces complexity and risks of deployments
 - Lowers operational costs
-
 
 ## Conclusion
 
 CICD is the set of practices applied to automatize the delivery of the software product to the market. After developers push their changes, automated processes run to validate and assembly the software product and make them available for its consumers.
-The purpose of applying these practices is to be able to deliver high-quality software in a faster, reliable, and sustainable way.
-Small changes are frequently integrated into the product and the new versions are frequently delivered to the users.
+
+<img src="https://s3.eu-central-1.amazonaws.com/tutorial.assets/cicd-in-short/overall.png"/>
+
+The purpose of applying these practices is to be able to deliver high-quality software in a faster, reliable, and sustainable way. Small changes are frequently integrated into the product and the new versions are frequently delivered to the users.
