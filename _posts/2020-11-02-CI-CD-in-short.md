@@ -8,7 +8,9 @@ To simplify, the software delivery process can be evaluated under 3 phases follo
 
 - Development
 - Quality & Assurance
-- Deployment and monitoring
+- Operations
+
+<img src="https://s3.eu-central-1.amazonaws.com/tutorial.assets/cicd-in-short/process.png"/>
 
 ## Continuous Integration
 
