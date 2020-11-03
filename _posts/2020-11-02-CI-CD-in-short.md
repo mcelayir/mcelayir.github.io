@@ -16,7 +16,7 @@ This steps are constantly repeated to maintain the software product or add new f
 
 ## Continuous Integration
 
-Developers push their code changes to a repository on a `Version Control System (VCS)`. The compliance of each change for integration is checked on the build server by building the code and running tests. If the checks are successful, the changes are integrated into the main code. In the end, the main branch on the VCS always contains the latest version of the tested code which can be released any time needed.
+Developers push their code changes to a repository on a `Version Control System (VCS)`. The compliance of each change for integration is checked on the build server by building the code and running tests. If the checks are successful, the changes are integrated into the main code. 
 
 <img src="https://s3.eu-central-1.amazonaws.com/tutorial.assets/cicd-in-short/ci.png"/>
 
@@ -24,13 +24,14 @@ After changes are integrated into the main branch, the code is built and the acc
 
 <img src="https://s3.eu-central-1.amazonaws.com/tutorial.assets/cicd-in-short/cd.png"/>
 
+In the end, the main branch on the VCS always contains the latest version of the tested code which can be released any time needed. Moreover lastest version of the release will be always available in the artifact repository.
+
 CI / CD practices require developers to post changes frequently in small chunks. Benefits of this approach are:
 
 - Find and fix bugs earlier
 - Constantly adding new features and improvements
-- Ensure the code is always tested and satisfying quality metrics
-- Ensuring that the product meets QA standards.
 - QA procedures automatized
+- Ensure the code is always tested and satisfying quality metrics
 - Prevent producement of faulty products
 
 ## Continuous Delivery
