@@ -2,7 +2,7 @@
 
 The term `CI/CD` stands for `Continuous Integration` / `Continuous Delivery` or sometimes `Continuous Deployment`. In short `CICD` is described as a set of practices applied to deliver the improvements produced in a fast, reliable, and sustainable manner to the end-user.
 
-## How software is delivered
+## How Software is Delivered
 
 To simplify, the software delivery process can be evaluated under 3 phases following each other.
 
