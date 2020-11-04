@@ -31,7 +31,7 @@ The most significant shortcomings of the traditional delivery process are
 
 ## Main Idea
 
-The main idea is to automatize the QA and deployment processes. CI / CD practices recommend developers to post changes frequently in small chunks. QA processes automated and run to validate the code after every change is applied. If the checks pass, changes are integrated and artifacts are generated. These artifacts are rapidly deployed with automated processes for end-users to use.
+The main idea is to automatize the QA and deployment processes. CI / CD practices recommend developers to post changes frequently in small chunks and deploy often. QA processes automated and run to validate the code after every change is applied. If the checks pass, changes are integrated and artifacts are generated. These artifacts are rapidly deployed with automated processes for end-users to use.
 
 ## Continuous Integration
 
