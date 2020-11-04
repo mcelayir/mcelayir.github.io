@@ -1,6 +1,6 @@
 ## What Is CI/CD
 
-The term `CI/CD` stands for `Continuous Integration` / `Continuous Delivery` or sometimes `Continuous Deployment`. The idea is to improve the quality of the product and achieve faster delivery of the improvements to the customers.
+The term `CI/CD` stands for `Continuous Integration` / `Continuous Delivery` or sometimes `Continuous Deployment`. In short `CICD` is described as a set of practices applied to deliver the improvements produced in a fast, reliable, and sustainable manner to the end-user.
 
 ## How software is delivered
 
@@ -12,7 +12,26 @@ To simplify, the software delivery process can be evaluated under 3 phases follo
 
 <img src="https://s3.eu-central-1.amazonaws.com/tutorial.assets/cicd-in-short/process.png"/>
 
-This steps are constantly repeated to maintain the software product or add new features or just bugfixing.
+These steps are constantly repeated to maintain the software product or add new features or just bug fixing.
+
+## How CICD Emerged
+
+The delivery process was manual consisting of execting following steps one after each other.
+
+- Developers writes software
+- Quality control team tests software
+- Operations deploy the software
+
+The most significant shortcomings of the traditional delivery process are
+- Slow delivery
+- Long feedback cycles
+- Producing faulty software
+- Process depends on human effort and error-prone
+- Complex and risky process
+
+## Main Idea
+
+The main idea is to automatize the QA and deployment processes. CI / CD practices recommend developers to post changes frequently in small chunks. QA processes automated and run to validate the code after every change is applied. If the checks pass, changes are integrated and artifacts are generated. These artifacts are rapidly deployed with automated processes for end-users to use.
 
 ## Continuous Integration
 
@@ -24,9 +43,7 @@ After changes are integrated into the main branch, the code is built and the acc
 
 <img src="https://s3.eu-central-1.amazonaws.com/tutorial.assets/cicd-in-short/cd.png"/>
 
-In the end, the main branch on the VCS always contains the latest version of the tested code which can be released any time needed. Moreover lastest version of the release will be always available in the artifact repository.
-
-CI / CD practices require developers to post changes frequently in small chunks. Benefits of this approach are:
+In the end, the main branch on the VCS always contains the latest version of the tested code which can be released any time needed. Moreover, the latest version of the release will be always available in the artifact repository.
 
 - Find and fix bugs earlier
 - Constantly adding new features and improvements
@@ -36,9 +53,9 @@ CI / CD practices require developers to post changes frequently in small chunks.
 
 ## Continuous Delivery
 
-Continuous Delivery aims to deliver the code changes to the users reliably and sustainably. Code changes can be new features, improvements, configuration changes, or bug fixes and the changes needs to be delivered to users as they become available.
+Continuous Delivery aims to deliver the added value to the users reliably and sustainably. Code changes can be new features, improvements, configuration changes, or bug fixes and the changes needs to be delivered to users as they become available.
 
-Generated artifacts are deployed to the servers and become available for their consumers' usage. Automated processes deploy the latest version of the software the application servers as the artifact is generated.
+Generated artifacts are deployed to the servers and become available for their consumers' usage. Automated processes deploy the latest version of the software the application servers as the artifact is generated. 
 
 <img src="https://s3.eu-central-1.amazonaws.com/tutorial.assets/cicd-in-short/cdep.png"/>
 
