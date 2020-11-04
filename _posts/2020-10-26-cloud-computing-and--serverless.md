@@ -49,7 +49,7 @@ To conclude, IaaS is the closest thing to having a data center. It's like having
 ### Platform as a Service (PaaS)
 
 Platform as a Service is the cloud computing model where the cloud provider provides the hardware alongside the software and tools needed to run the application. PaaS solutions can be thought of as an IaaS solution sophisticated to run your application. 
-It is mostly used by developers building software or applications. It simply abstracts away the complexity of building and managing infrastructure so that developers can focus build their apps and run it as they are running on their local machine. PaaS solutions offer tools to deploy your application from docker or Github which can be further automatized by using third-party tools.
+It is mostly used by developers building software or applications. It simply abstracts away the complexity of building and managing infrastructure so that developers can focus build their apps and run it as they are running on their local machine. PaaS solutions offer tools to deploy your application from docker or Github which can be further automated by using third-party tools.
 
 Some popular examples of PaaS are
 - AWS Elastic Beanstalk

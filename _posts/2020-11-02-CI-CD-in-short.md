@@ -14,7 +14,7 @@ To simplify, the software delivery process can be evaluated under 3 phases follo
 
 These steps are constantly repeated to maintain the software product or add new features or just bug fixing.
 
-## How CICD Emerged
+## How CI/CD Emerged
 
 The delivery process was manual consisting of execting following steps one after each other.
 
@@ -31,7 +31,7 @@ The most significant shortcomings of the traditional delivery process are
 
 ## Main Idea
 
-The main idea is to automatize the QA and deployment processes. CI / CD practices recommend developers to post changes frequently in small chunks and deploy often. QA processes automated and run to validate the code after every change is applied. If the checks pass, changes are integrated and artifacts are generated. These artifacts are rapidly deployed with automated processes for end-users to use.
+The main idea is to automate the QA and deployment processes. CI / CD practices recommend developers to post changes frequently in small chunks and deploy often. QA processes automated and run to validate the code after every change is applied. If the checks pass, changes are integrated and artifacts are generated. These artifacts are rapidly deployed with automated processes for end-users to use.
 
 ## Continuous Integration
 
@@ -47,7 +47,7 @@ In the end, the main branch on the VCS always contains the latest version of the
 
 - Find and fix bugs earlier
 - Constantly adding new features and improvements
-- QA procedures automatized
+- QA procedures automated
 - Ensure the code is always tested and satisfying quality metrics
 - Prevent producement of faulty products
 
@@ -61,7 +61,7 @@ Generated artifacts are deployed to the servers and become available for their c
 
 Advantages are
 
-- Delivery process is automatized
+- Delivery process is automated
 - Deployments performed at any given time
 - Faster time to market
 - Reduces complexity and risks of deployments
@@ -69,7 +69,7 @@ Advantages are
 
 ## Overall
 
-CICD is the set of practices applied to automatize the delivery of the software product to the market. Applying these processes to the delivery process enables large teams to function efficiently and faster delivery of products while improving the quality.
+CICD is the set of practices applied to automated the delivery of the software product to the market. Applying these processes to the delivery process enables large teams to function efficiently and faster delivery of products while improving the quality.
 
 After developers push their changes, automated processes run to validate and assembly the software product and make them available to consumers.
 
