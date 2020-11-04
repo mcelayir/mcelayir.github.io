@@ -69,7 +69,7 @@ Advantages are
 
 ## Overall
 
-CICD is the set of practices applied to automated the delivery of the software product to the market. Applying these processes to the delivery process enables large teams to function efficiently and faster delivery of products while improving the quality.
+CICD is the set of practices applied to automate the delivery of the software product to the market. Applying these processes to the delivery process enables large teams to function efficiently and faster delivery of products while improving the quality.
 
 After developers push their changes, automated processes run to validate and assembly the software product and make them available to consumers.
 
