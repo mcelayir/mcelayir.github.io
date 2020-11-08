@@ -1,3 +1,9 @@
+---
+layout: post
+title:  "CI/CD In a Nutshell"
+date:   2019-05-31
+categories: posts
+---
 ## What Is CI/CD
 
 The term `CI/CD` stands for `Continuous Integration` / `Continuous Delivery` or sometimes `Continuous Deployment`. In short `CICD` is described as a set of practices applied to deliver the improvements produced in a fast, reliable, and sustainable manner to the end-user.
