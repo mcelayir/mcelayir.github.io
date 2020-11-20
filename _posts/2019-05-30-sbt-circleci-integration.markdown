@@ -6,7 +6,7 @@ categories: posts
 ---
 # Overview
 
-This tutorial is intended to give information about circleci and demonstrate its basic concepts by integrating circleci with a scala project. We are going to automate and orchestrate the steps necessary to compile, test and publish
+This tutorial is intended to give information about circleci and demonstrate its basic concepts by integrating circleci with a scala project. We are going to automate and orchestrate the steps necessary to compile, test and publish.
 
 You can find the github repository for the tutorial <a href="https://github.com/muratcancelayir/sbt-circle-ci-integration">here</a>
 
