@@ -189,3 +189,10 @@ jobs:
           command: sbt docker:publish
 
 ```
+Now let's push our changes to Github and open CircleCI from your browser. You can login with your Github account and set up your project with few easy steps. After setting up the project on CircleCI, you can see the CircleCI start running our job. Since we have only one job in our pipeline, it will be started automatically. 
+
+<img src="https://s3.eu-central-1.amazonaws.com/tutorial.assets/circleci/circleci-success.png"/>
+
+AS our last step completed, we should be able to see our image published to Dockerhub successfully.
+
+<img src="https://s3.eu-central-1.amazonaws.com/tutorial.assets/circleci/dockerhub-success.png"/>
